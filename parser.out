@@ -1,0 +1,119 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    AND
+    ASSIGN
+    BOOL
+    BREAK
+    COLON
+    COMMA
+    ELSE
+    EQUAL
+    EXP
+    FALSE
+    FOR
+    FUNCTION
+    GREATEREQUAL
+    GREATERTHAN
+    IF
+    INTEGER
+    LBRACE
+    LESSEQUAL
+    LESSTHAN
+    MOD
+    NOT
+    NOTEQUAL
+    OR
+    PRINT
+    RBRACE
+    READ
+    RETURN
+    TO
+    TRUE
+    VAR
+    VOID
+    WHILE
+
+Grammar
+
+Rule 0     S' -> Program
+Rule 1     Program -> ProgramHeader
+Rule 2     Program -> ProgramBody
+Rule 3     ProgramHeader -> PROGRAM ID SEMICOLON
+Rule 4     ProgramBody -> FuncDecls VarDecls Cmd
+Rule 5     FuncDecls -> empty
+Rule 6     FuncDecls -> Function FuncDecls
+Rule 7     Function -> empty
+Rule 8     Function -> Function FuncDecls
+Rule 9     VarDecls -> empty
+Rule 10    VarDecls -> VarDecl VarDecls
+Rule 11    expression -> expression PLUS INT
+Rule 12    expression -> expression MINUS expression
+Rule 13    expression -> expression TIMES expression
+Rule 14    expression -> expression DIVIDE expression
+Rule 15    expression -> LPAREN expression RPAREN
+Rule 16    expression -> NUMBER
+Rule 17    expression -> MINUS expression
+Rule 18    empty -> <empty>
+
+Terminals, with rules where they appear
+
+AND                  : 
+ASSIGN               : 
+BOOL                 : 
+BREAK                : 
+COLON                : 
+COMMA                : 
+DIVIDE               : 14
+ELSE                 : 
+EQUAL                : 
+EXP                  : 
+FALSE                : 
+FOR                  : 
+FUNCTION             : 
+GREATEREQUAL         : 
+GREATERTHAN          : 
+ID                   : 3
+IF                   : 
+INT                  : 11
+INTEGER              : 
+LBRACE               : 
+LESSEQUAL            : 
+LESSTHAN             : 
+LPAREN               : 15
+MINUS                : 12 17
+MOD                  : 
+NOT                  : 
+NOTEQUAL             : 
+OR                   : 
+PLUS                 : 11
+PRINT                : 
+PROGRAM              : 3
+RBRACE               : 
+READ                 : 
+RETURN               : 
+RPAREN               : 15
+SEMICOLON            : 3
+TIMES                : 13
+TO                   : 
+TRUE                 : 
+VAR                  : 
+VOID                 : 
+WHILE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+Cmd                  : 4
+FuncDecls            : 4 6 8
+Function             : 6 8
+NUMBER               : 16
+Program              : 0
+ProgramBody          : 2
+ProgramHeader        : 1
+VarDecl              : 10
+VarDecls             : 4 10
+empty                : 5 7 9
+expression           : 11 12 12 13 13 14 14 15 17
+
