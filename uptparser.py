@@ -5,11 +5,11 @@ precedence = (
     ('left', 'OR'),
     ('left', 'AND'),
     #('', 'NOT'),
-    ('nonassoc', 'EQUAL', 'NOTEQUAL', 'LESSTHAN', 'GREATERTHAN', 'LESSEQUAL', 'GREATEREQUAL'),
-    ('left', 'PLUS', 'MINUS'),
-    ('left', 'TIMES', 'DIVIDE', 'MOD'),
+    ('nonassoc', 'EQUAL', 'NOTEQUAL', '<', '>', 'LESSEQUAL', 'GREATEREQUAL'),
+    ('left', '+', '-'),
+    ('left', '*', 'DIVIDE' , '%'),
     ('right', 'EXP'),
-    ('right', 'UMINUS'),
+    #('right', 'UMINUS'),
 )
 
 start = 'Program'
@@ -119,6 +119,7 @@ def p_BinOp(p):
     '''BinOp : '+' 
              | '-'
              | '*'
+             | DIVIDE
              | EXP
              | '%'
              | EQUAL
@@ -133,11 +134,11 @@ def p_BinOp(p):
 
 def p_UnOp(p):
     '''UnOp : '-' 
-            | 'NOT' 
+            | NOT 
             '''
     
 def p_ExprList(p):
-    '''ExprList : 'empty' 
+    '''ExprList : empty 
                 | ExprList1 '''
     
 def p_ExprList1(p):
@@ -187,9 +188,9 @@ def p_Type(p):
 #     'expression : NUMBER'
 #     p[0] = p[1]
 
-def p_expr_uminus(p):
-    'expression : MINUS expression %prec UMINUS'
-    p[0] = -p[2]
+# def p_expr_uminus(p):
+#     'expression : MINUS expression %prec UMINUS'
+#     p[0] = -p[2]
 
 def p_empty(p):
     'empty :'

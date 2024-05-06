@@ -31,7 +31,7 @@ tokens = [
 #    'PLUS',
 #    'MINUS',
 #    'TIMES',
-#    'DIVIDE',
+     'DIVIDE',
    'EXP',
 #    'MOD',
    'EQUAL',
@@ -58,7 +58,7 @@ tokens = [
 # t_PLUS    = r'\+'
 # t_MINUS   = r'-'
 # t_TIMES   = r'\*'
-# t_DIVIDE  = r'/'
+t_DIVIDE  = r'/'
 t_EXP = r'\*\*'
 # t_MOD = r'%'
 t_EQUAL = r'=='
