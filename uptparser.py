@@ -14,36 +14,152 @@ precedence = (
 
 start = 'Program'
 
-# ---------------- 5) Programs -------------------------
+# ---------------- 5) Programs Grammar -------------------------
+
 def p_program(p):
    '''Program : ProgramHeader 
               | ProgramBody''' 
 
 def p_ProgramHeader(p):
-   'ProgramHeader : PROGRAM ID SEMICOLON' 
+   '''ProgramHeader : PROGRAM ID ';' '''
 
 def p_ProgramBody(p):
-   'ProgramBody : FuncDecls VarDecls Cmd' 
+   '''ProgramBody : FuncDecls VarDecls Cmd'''
 
 def p_FuncDecls(p):
    '''FuncDecls : empty 
               | Function FuncDecls'''
 
-# ---------------- 4) Functions -------------------------
+# ---------------- 4) Functions Grammar -------------------------
+
 def p_Function(p):
    '''Function : FunctionHeader 
                | FunctionBody'''
    
 def p_FunctionHeader(p):
-   '''FunctionHeader : FunctionType FUNCTION ID LPAREN ParamList RPAREN COLON 
-               | FunctionBody'''
+   '''FunctionHeader : FunctionType FUNCTION ID '(' ParamList ')' ':' '''
 
-# 1) Declarations
+def p_FunctionType(p):
+   '''FunctionType : INTEGER 
+                   | BOOL
+                   | VOID'''
+   
+def p_FunctionBody(p):
+   '''FunctionBody : '{' VarDecls CmdList '}' '''
+
+def p_ParamList(p):
+   '''ParamList : empty 
+                | ParamList1'''
+
+def p_ParamList1(p):
+   '''ParamList1 : Param ',' ParamList1 
+                 | Param'''
+   
+def p_Param(p):
+   '''Param : ID ':' Type'''
+
+# ---------------- 3) Commands Grammar -------------------------
+
+def p_Cmd(p):
+    '''Cmd : CmdAtrib 
+           | CmdIf
+           | CmdWhile
+           | CmdFor
+           | CmdBreak
+           | CmdPrint
+           | CmdReturn
+           | CmdSeq
+           '''
+
+def p_CmdAtrib(p):
+    '''CmdAtrib : ID 
+                | Expr'''
+    
+def p_CmdIf(p):
+    '''CmdIf : IF Expr ':' Cmd 
+             | IF Expr ':' Cmd ELSE ':' '''
+    
+def p_CmdWhile(p):
+    '''CmdWhile : WHILE Expr ':' Cmd '''
+
+def p_CmdFor(p):
+    '''CmdFor : FOR CmdAtrib TO Expr ':' Cmd '''
+
+def p_CmdBreak(p):
+    '''CmdBreak : BREAK '''
+
+def p_CmdPrint(p):
+    '''CmdPrint : PRINT '(' ExprList ')' '''
+    
+def p_CmdReturn(p):
+    '''CmdReturn : RETURN Expr '''
+
+def p_CmdSeq(p):
+    '''CmdSeq : '{' CmdList '}' '''
+
+def p_CmdList(p):
+    '''CmdList : Cmd ';' CmdList 
+               | Cmd'''
+
+# ---------------- 2) Expressions Grammar -------------------------
+
+def p_Expr(p):
+    '''Expr : INT 
+            | TRUE
+            | FALSE
+            | ID
+            | Expr BinOp Expr
+            | UnOp Expr
+            | '(' Expr ')'
+            | ID '(' ExprList ')'
+            | READ '(' ')'
+           '''
+    
+def p_BinOp(p):
+    '''BinOp : '+' 
+             | '-'
+             | '*'
+             | EXP
+             | '%'
+             | EQUAL
+             | NOTEQUAL
+             | '<'
+             | '>'
+             | LESSEQUAL
+             | GREATEREQUAL
+             | AND
+             | OR
+           '''
+
+def p_UnOp(p):
+    '''UnOp : '-' 
+            | 'NOT' 
+            '''
+    
+def p_ExprList(p):
+    '''ExprList : 'empty' 
+                | ExprList1 '''
+    
+def p_ExprList1(p):
+    '''ExprList1 : Expr
+                 | Expr ',' ExprList1 '''
+
+
+
+# ---------------- 1) Declarations Grammar -------------------------
+
 def p_VarDecls(p):
     '''VarDecls : empty 
                 | VarDecl VarDecls'''
     
-    p[0] = ('declaration', p[1], p[3])
+
+def p_VarDecl(p):
+    '''VarDecl : VAR ID ':' Type ';' '''
+
+def p_Type(p):
+    '''Type : INTEGER 
+                | BOOL'''
+
 
 # def p_expression_plus(p):
 #     'expression : expression PLUS INT'
