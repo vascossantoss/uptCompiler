@@ -21,7 +21,6 @@ reserved = {
     'and' : 'AND',
     'or' : 'OR',
     'not' : 'NOT',
-
 }
 
 literals = ['+','-','*','/', '%', '<', '>', '=', ',', ':', ';', '(', ')', '{', '}']
@@ -31,7 +30,7 @@ tokens = [
 #    'PLUS',
 #    'MINUS',
 #    'TIMES',
-     'DIVIDE',
+   'DIVIDE',
    'EXP',
 #    'MOD',
    'EQUAL',
@@ -102,34 +101,12 @@ def t_error(t):
 lexer = lex.lex()
 
 # Test it out
-data = '''
-(* Isto é um comentário
-
-multi-linha *)
-int a = 1;
-bool flag = true;
-
- function void(int a, bool flag) {
-    # comentário
-    if(flag){
-        print(a);
-    }
- }
- 
-
-'''
-
-data2= '''
-+ - * / ** % == != <= >= < > = , : ; ( ) { }
-
-'''
-
 # Give the lexer some input
-lexer.input(data)
+#lexer.input(data)
 
-# Tokenize
-while True:
-    tok = lexer.token()
-    if not tok: 
-        break      # No more input
-    print(tok)
+# # Tokenize
+# while True:
+#     tok = lexer.token()
+#     if not tok: 
+#         break      # No more input
+#     print(tok)

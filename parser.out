@@ -3,37 +3,37 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Grammar
 
 Rule 0     S' -> Program
-Rule 1     Program -> ProgramHeader
-Rule 2     Program -> ProgramBody
-Rule 3     ProgramHeader -> PROGRAM ID ;
-Rule 4     ProgramBody -> FuncDecls VarDecls Cmd
-Rule 5     FuncDecls -> empty
-Rule 6     FuncDecls -> Function FuncDecls
-Rule 7     Function -> FunctionHeader
-Rule 8     Function -> FunctionBody
-Rule 9     FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) :
-Rule 10    FunctionType -> INTEGER
-Rule 11    FunctionType -> BOOL
-Rule 12    FunctionType -> VOID
-Rule 13    FunctionBody -> { VarDecls CmdList }
-Rule 14    ParamList -> empty
-Rule 15    ParamList -> ParamList1
-Rule 16    ParamList1 -> Param , ParamList1
-Rule 17    ParamList1 -> Param
-Rule 18    Param -> ID : Type
-Rule 19    Cmd -> CmdAtrib
-Rule 20    Cmd -> CmdIf
-Rule 21    Cmd -> CmdWhile
-Rule 22    Cmd -> CmdFor
-Rule 23    Cmd -> CmdBreak
-Rule 24    Cmd -> CmdPrint
-Rule 25    Cmd -> CmdReturn
-Rule 26    Cmd -> CmdSeq
-Rule 27    CmdAtrib -> ID
-Rule 28    CmdAtrib -> Expr
+Rule 1     Program -> ProgramHeader ProgramBody
+Rule 2     ProgramHeader -> PROGRAM ID ;
+Rule 3     ProgramBody -> FuncDecls VarDecls Cmds
+Rule 4     FuncDecls -> empty
+Rule 5     FuncDecls -> Function FuncDecls
+Rule 6     Function -> FunctionHeader
+Rule 7     Function -> FunctionBody
+Rule 8     FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) :
+Rule 9     FunctionType -> INTEGER
+Rule 10    FunctionType -> BOOL
+Rule 11    FunctionType -> VOID
+Rule 12    FunctionBody -> { VarDecls CmdList }
+Rule 13    ParamList -> empty
+Rule 14    ParamList -> ParamList1
+Rule 15    ParamList1 -> Param , ParamList1
+Rule 16    ParamList1 -> Param
+Rule 17    Param -> ID : Type
+Rule 18    Cmds -> CmdSeq
+Rule 19    Cmds -> Cmd
+Rule 20    Cmd -> CmdAtrib
+Rule 21    Cmd -> CmdIf
+Rule 22    Cmd -> CmdWhile
+Rule 23    Cmd -> CmdFor
+Rule 24    Cmd -> CmdBreak
+Rule 25    Cmd -> CmdPrint
+Rule 26    Cmd -> CmdReturn
+Rule 27    Cmd -> CmdSeq
+Rule 28    CmdAtrib -> ID = Expr
 Rule 29    CmdIf -> IF Expr : Cmd
 Rule 30    CmdIf -> IF Expr : Cmd ELSE :
-Rule 31    CmdWhile -> WHILE Expr : Cmd
+Rule 31    CmdWhile -> WHILE Expr : Cmds
 Rule 32    CmdFor -> FOR CmdAtrib TO Expr : Cmd
 Rule 33    CmdBreak -> BREAK
 Rule 34    CmdPrint -> PRINT ( ExprList )
@@ -80,18 +80,19 @@ Rule 73    empty -> <empty>
 Terminals, with rules where they appear
 
 %                    : 53
-(                    : 9 34 45 46 47
-)                    : 9 34 45 46 47
+(                    : 8 34 45 46 47
+)                    : 8 34 45 46 47
 *                    : 50
 +                    : 48
-,                    : 16 67
+,                    : 15 67
 -                    : 49 62
-:                    : 9 18 29 30 30 31 32 70
-;                    : 3 37 70
+:                    : 8 17 29 30 30 31 32 70
+;                    : 2 37 70
 <                    : 56
+=                    : 28
 >                    : 57
 AND                  : 60
-BOOL                 : 11 72
+BOOL                 : 10 72
 BREAK                : 33
 DIVIDE               : 51
 ELSE                 : 30
@@ -99,115 +100,75 @@ EQUAL                : 54
 EXP                  : 52
 FALSE                : 41
 FOR                  : 32
-FUNCTION             : 9
+FUNCTION             : 8
 GREATEREQUAL         : 59
-ID                   : 3 9 18 27 42 46 70
+ID                   : 2 8 17 28 42 46 70
 IF                   : 29 30
 INT                  : 39
-INTEGER              : 10 71
+INTEGER              : 9 71
 LESSEQUAL            : 58
 NOT                  : 63
 NOTEQUAL             : 55
 OR                   : 61
 PRINT                : 34
-PROGRAM              : 3
+PROGRAM              : 2
 READ                 : 47
 RETURN               : 35
 TO                   : 32
 TRUE                 : 40
 VAR                  : 70
-VOID                 : 12
+VOID                 : 11
 WHILE                : 31
 error                : 
-{                    : 13 36
-}                    : 13 36
+{                    : 12 36
+}                    : 12 36
 
 Nonterminals, with rules where they appear
 
 BinOp                : 43
-Cmd                  : 4 29 30 31 32 37 38
-CmdAtrib             : 19 32
-CmdBreak             : 23
-CmdFor               : 22
-CmdIf                : 20
-CmdList              : 13 36 37
-CmdPrint             : 24
-CmdReturn            : 25
-CmdSeq               : 26
-CmdWhile             : 21
+Cmd                  : 19 29 30 32 37 38
+CmdAtrib             : 20 32
+CmdBreak             : 24
+CmdFor               : 23
+CmdIf                : 21
+CmdList              : 12 36 37
+CmdPrint             : 25
+CmdReturn            : 26
+CmdSeq               : 18 27
+CmdWhile             : 22
+Cmds                 : 3 31
 Expr                 : 28 29 30 31 32 35 43 43 44 45 66 67
 ExprList             : 34 46
 ExprList1            : 65 67
-FuncDecls            : 4 6
-Function             : 6
-FunctionBody         : 8
-FunctionHeader       : 7
-FunctionType         : 9
-Param                : 16 17
-ParamList            : 9
-ParamList1           : 15 16
+FuncDecls            : 3 5
+Function             : 5
+FunctionBody         : 7
+FunctionHeader       : 6
+FunctionType         : 8
+Param                : 15 16
+ParamList            : 8
+ParamList1           : 14 15
 Program              : 0
-ProgramBody          : 2
+ProgramBody          : 1
 ProgramHeader        : 1
-Type                 : 18 70
+Type                 : 17 70
 UnOp                 : 44
 VarDecl              : 69
-VarDecls             : 4 13 69
-empty                : 5 14 64 68
+VarDecls             : 3 12 69
+empty                : 4 13 64 68
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . Program
-    (1) Program -> . ProgramHeader
-    (2) Program -> . ProgramBody
-    (3) ProgramHeader -> . PROGRAM ID ;
-    (4) ProgramBody -> . FuncDecls VarDecls Cmd
-    (5) FuncDecls -> . empty
-    (6) FuncDecls -> . Function FuncDecls
-    (73) empty -> .
-    (7) Function -> . FunctionHeader
-    (8) Function -> . FunctionBody
-    (9) FunctionHeader -> . FunctionType FUNCTION ID ( ParamList ) :
-    (13) FunctionBody -> . { VarDecls CmdList }
-    (10) FunctionType -> . INTEGER
-    (11) FunctionType -> . BOOL
-    (12) FunctionType -> . VOID
+    (1) Program -> . ProgramHeader ProgramBody
+    (2) ProgramHeader -> . PROGRAM ID ;
 
-  ! shift/reduce conflict for { resolved as shift
-    PROGRAM         shift and go to state 4
-    VAR             reduce using rule 73 (empty -> .)
-    ID              reduce using rule 73 (empty -> .)
-    IF              reduce using rule 73 (empty -> .)
-    WHILE           reduce using rule 73 (empty -> .)
-    FOR             reduce using rule 73 (empty -> .)
-    BREAK           reduce using rule 73 (empty -> .)
-    PRINT           reduce using rule 73 (empty -> .)
-    RETURN          reduce using rule 73 (empty -> .)
-    INT             reduce using rule 73 (empty -> .)
-    TRUE            reduce using rule 73 (empty -> .)
-    FALSE           reduce using rule 73 (empty -> .)
-    (               reduce using rule 73 (empty -> .)
-    READ            reduce using rule 73 (empty -> .)
-    -               reduce using rule 73 (empty -> .)
-    NOT             reduce using rule 73 (empty -> .)
-    {               shift and go to state 11
-    INTEGER         shift and go to state 12
-    BOOL            shift and go to state 13
-    VOID            shift and go to state 14
-
-  ! {               [ reduce using rule 73 (empty -> .) ]
+    PROGRAM         shift and go to state 3
 
     Program                        shift and go to state 1
     ProgramHeader                  shift and go to state 2
-    ProgramBody                    shift and go to state 3
-    FuncDecls                      shift and go to state 5
-    empty                          shift and go to state 6
-    Function                       shift and go to state 7
-    FunctionHeader                 shift and go to state 8
-    FunctionBody                   shift and go to state 9
-    FunctionType                   shift and go to state 10
 
 state 1
 
@@ -217,89 +178,18 @@ state 1
 
 state 2
 
-    (1) Program -> ProgramHeader .
-
-    $end            reduce using rule 1 (Program -> ProgramHeader .)
-
-
-state 3
-
-    (2) Program -> ProgramBody .
-
-    $end            reduce using rule 2 (Program -> ProgramBody .)
-
-
-state 4
-
-    (3) ProgramHeader -> PROGRAM . ID ;
-
-    ID              shift and go to state 15
-
-
-state 5
-
-    (4) ProgramBody -> FuncDecls . VarDecls Cmd
-    (68) VarDecls -> . empty
-    (69) VarDecls -> . VarDecl VarDecls
+    (1) Program -> ProgramHeader . ProgramBody
+    (3) ProgramBody -> . FuncDecls VarDecls Cmds
+    (4) FuncDecls -> . empty
+    (5) FuncDecls -> . Function FuncDecls
     (73) empty -> .
-    (70) VarDecl -> . VAR ID : Type ;
-
-    ID              reduce using rule 73 (empty -> .)
-    IF              reduce using rule 73 (empty -> .)
-    WHILE           reduce using rule 73 (empty -> .)
-    FOR             reduce using rule 73 (empty -> .)
-    BREAK           reduce using rule 73 (empty -> .)
-    PRINT           reduce using rule 73 (empty -> .)
-    RETURN          reduce using rule 73 (empty -> .)
-    {               reduce using rule 73 (empty -> .)
-    INT             reduce using rule 73 (empty -> .)
-    TRUE            reduce using rule 73 (empty -> .)
-    FALSE           reduce using rule 73 (empty -> .)
-    (               reduce using rule 73 (empty -> .)
-    READ            reduce using rule 73 (empty -> .)
-    -               reduce using rule 73 (empty -> .)
-    NOT             reduce using rule 73 (empty -> .)
-    VAR             shift and go to state 19
-
-    VarDecls                       shift and go to state 16
-    empty                          shift and go to state 17
-    VarDecl                        shift and go to state 18
-
-state 6
-
-    (5) FuncDecls -> empty .
-
-    VAR             reduce using rule 5 (FuncDecls -> empty .)
-    ID              reduce using rule 5 (FuncDecls -> empty .)
-    IF              reduce using rule 5 (FuncDecls -> empty .)
-    WHILE           reduce using rule 5 (FuncDecls -> empty .)
-    FOR             reduce using rule 5 (FuncDecls -> empty .)
-    BREAK           reduce using rule 5 (FuncDecls -> empty .)
-    PRINT           reduce using rule 5 (FuncDecls -> empty .)
-    RETURN          reduce using rule 5 (FuncDecls -> empty .)
-    {               reduce using rule 5 (FuncDecls -> empty .)
-    INT             reduce using rule 5 (FuncDecls -> empty .)
-    TRUE            reduce using rule 5 (FuncDecls -> empty .)
-    FALSE           reduce using rule 5 (FuncDecls -> empty .)
-    (               reduce using rule 5 (FuncDecls -> empty .)
-    READ            reduce using rule 5 (FuncDecls -> empty .)
-    -               reduce using rule 5 (FuncDecls -> empty .)
-    NOT             reduce using rule 5 (FuncDecls -> empty .)
-
-
-state 7
-
-    (6) FuncDecls -> Function . FuncDecls
-    (5) FuncDecls -> . empty
-    (6) FuncDecls -> . Function FuncDecls
-    (73) empty -> .
-    (7) Function -> . FunctionHeader
-    (8) Function -> . FunctionBody
-    (9) FunctionHeader -> . FunctionType FUNCTION ID ( ParamList ) :
-    (13) FunctionBody -> . { VarDecls CmdList }
-    (10) FunctionType -> . INTEGER
-    (11) FunctionType -> . BOOL
-    (12) FunctionType -> . VOID
+    (6) Function -> . FunctionHeader
+    (7) Function -> . FunctionBody
+    (8) FunctionHeader -> . FunctionType FUNCTION ID ( ParamList ) :
+    (12) FunctionBody -> . { VarDecls CmdList }
+    (9) FunctionType -> . INTEGER
+    (10) FunctionType -> . BOOL
+    (11) FunctionType -> . VOID
 
   ! shift/reduce conflict for { resolved as shift
     VAR             reduce using rule 73 (empty -> .)
@@ -310,13 +200,95 @@ state 7
     BREAK           reduce using rule 73 (empty -> .)
     PRINT           reduce using rule 73 (empty -> .)
     RETURN          reduce using rule 73 (empty -> .)
-    INT             reduce using rule 73 (empty -> .)
-    TRUE            reduce using rule 73 (empty -> .)
-    FALSE           reduce using rule 73 (empty -> .)
-    (               reduce using rule 73 (empty -> .)
-    READ            reduce using rule 73 (empty -> .)
-    -               reduce using rule 73 (empty -> .)
-    NOT             reduce using rule 73 (empty -> .)
+    {               shift and go to state 11
+    INTEGER         shift and go to state 12
+    BOOL            shift and go to state 13
+    VOID            shift and go to state 14
+
+  ! {               [ reduce using rule 73 (empty -> .) ]
+
+    ProgramBody                    shift and go to state 4
+    FuncDecls                      shift and go to state 5
+    empty                          shift and go to state 6
+    Function                       shift and go to state 7
+    FunctionHeader                 shift and go to state 8
+    FunctionBody                   shift and go to state 9
+    FunctionType                   shift and go to state 10
+
+state 3
+
+    (2) ProgramHeader -> PROGRAM . ID ;
+
+    ID              shift and go to state 15
+
+
+state 4
+
+    (1) Program -> ProgramHeader ProgramBody .
+
+    $end            reduce using rule 1 (Program -> ProgramHeader ProgramBody .)
+
+
+state 5
+
+    (3) ProgramBody -> FuncDecls . VarDecls Cmds
+    (68) VarDecls -> . empty
+    (69) VarDecls -> . VarDecl VarDecls
+    (73) empty -> .
+    (70) VarDecl -> . VAR ID : Type ;
+
+    {               reduce using rule 73 (empty -> .)
+    ID              reduce using rule 73 (empty -> .)
+    IF              reduce using rule 73 (empty -> .)
+    WHILE           reduce using rule 73 (empty -> .)
+    FOR             reduce using rule 73 (empty -> .)
+    BREAK           reduce using rule 73 (empty -> .)
+    PRINT           reduce using rule 73 (empty -> .)
+    RETURN          reduce using rule 73 (empty -> .)
+    VAR             shift and go to state 19
+
+    VarDecls                       shift and go to state 16
+    empty                          shift and go to state 17
+    VarDecl                        shift and go to state 18
+
+state 6
+
+    (4) FuncDecls -> empty .
+
+    VAR             reduce using rule 4 (FuncDecls -> empty .)
+    {               reduce using rule 4 (FuncDecls -> empty .)
+    ID              reduce using rule 4 (FuncDecls -> empty .)
+    IF              reduce using rule 4 (FuncDecls -> empty .)
+    WHILE           reduce using rule 4 (FuncDecls -> empty .)
+    FOR             reduce using rule 4 (FuncDecls -> empty .)
+    BREAK           reduce using rule 4 (FuncDecls -> empty .)
+    PRINT           reduce using rule 4 (FuncDecls -> empty .)
+    RETURN          reduce using rule 4 (FuncDecls -> empty .)
+
+
+state 7
+
+    (5) FuncDecls -> Function . FuncDecls
+    (4) FuncDecls -> . empty
+    (5) FuncDecls -> . Function FuncDecls
+    (73) empty -> .
+    (6) Function -> . FunctionHeader
+    (7) Function -> . FunctionBody
+    (8) FunctionHeader -> . FunctionType FUNCTION ID ( ParamList ) :
+    (12) FunctionBody -> . { VarDecls CmdList }
+    (9) FunctionType -> . INTEGER
+    (10) FunctionType -> . BOOL
+    (11) FunctionType -> . VOID
+
+  ! shift/reduce conflict for { resolved as shift
+    VAR             reduce using rule 73 (empty -> .)
+    ID              reduce using rule 73 (empty -> .)
+    IF              reduce using rule 73 (empty -> .)
+    WHILE           reduce using rule 73 (empty -> .)
+    FOR             reduce using rule 73 (empty -> .)
+    BREAK           reduce using rule 73 (empty -> .)
+    PRINT           reduce using rule 73 (empty -> .)
+    RETURN          reduce using rule 73 (empty -> .)
     {               shift and go to state 11
     INTEGER         shift and go to state 12
     BOOL            shift and go to state 13
@@ -333,64 +305,50 @@ state 7
 
 state 8
 
-    (7) Function -> FunctionHeader .
+    (6) Function -> FunctionHeader .
 
-    {               reduce using rule 7 (Function -> FunctionHeader .)
-    INTEGER         reduce using rule 7 (Function -> FunctionHeader .)
-    BOOL            reduce using rule 7 (Function -> FunctionHeader .)
-    VOID            reduce using rule 7 (Function -> FunctionHeader .)
-    VAR             reduce using rule 7 (Function -> FunctionHeader .)
-    ID              reduce using rule 7 (Function -> FunctionHeader .)
-    IF              reduce using rule 7 (Function -> FunctionHeader .)
-    WHILE           reduce using rule 7 (Function -> FunctionHeader .)
-    FOR             reduce using rule 7 (Function -> FunctionHeader .)
-    BREAK           reduce using rule 7 (Function -> FunctionHeader .)
-    PRINT           reduce using rule 7 (Function -> FunctionHeader .)
-    RETURN          reduce using rule 7 (Function -> FunctionHeader .)
-    INT             reduce using rule 7 (Function -> FunctionHeader .)
-    TRUE            reduce using rule 7 (Function -> FunctionHeader .)
-    FALSE           reduce using rule 7 (Function -> FunctionHeader .)
-    (               reduce using rule 7 (Function -> FunctionHeader .)
-    READ            reduce using rule 7 (Function -> FunctionHeader .)
-    -               reduce using rule 7 (Function -> FunctionHeader .)
-    NOT             reduce using rule 7 (Function -> FunctionHeader .)
+    {               reduce using rule 6 (Function -> FunctionHeader .)
+    INTEGER         reduce using rule 6 (Function -> FunctionHeader .)
+    BOOL            reduce using rule 6 (Function -> FunctionHeader .)
+    VOID            reduce using rule 6 (Function -> FunctionHeader .)
+    VAR             reduce using rule 6 (Function -> FunctionHeader .)
+    ID              reduce using rule 6 (Function -> FunctionHeader .)
+    IF              reduce using rule 6 (Function -> FunctionHeader .)
+    WHILE           reduce using rule 6 (Function -> FunctionHeader .)
+    FOR             reduce using rule 6 (Function -> FunctionHeader .)
+    BREAK           reduce using rule 6 (Function -> FunctionHeader .)
+    PRINT           reduce using rule 6 (Function -> FunctionHeader .)
+    RETURN          reduce using rule 6 (Function -> FunctionHeader .)
 
 
 state 9
 
-    (8) Function -> FunctionBody .
+    (7) Function -> FunctionBody .
 
-    {               reduce using rule 8 (Function -> FunctionBody .)
-    INTEGER         reduce using rule 8 (Function -> FunctionBody .)
-    BOOL            reduce using rule 8 (Function -> FunctionBody .)
-    VOID            reduce using rule 8 (Function -> FunctionBody .)
-    VAR             reduce using rule 8 (Function -> FunctionBody .)
-    ID              reduce using rule 8 (Function -> FunctionBody .)
-    IF              reduce using rule 8 (Function -> FunctionBody .)
-    WHILE           reduce using rule 8 (Function -> FunctionBody .)
-    FOR             reduce using rule 8 (Function -> FunctionBody .)
-    BREAK           reduce using rule 8 (Function -> FunctionBody .)
-    PRINT           reduce using rule 8 (Function -> FunctionBody .)
-    RETURN          reduce using rule 8 (Function -> FunctionBody .)
-    INT             reduce using rule 8 (Function -> FunctionBody .)
-    TRUE            reduce using rule 8 (Function -> FunctionBody .)
-    FALSE           reduce using rule 8 (Function -> FunctionBody .)
-    (               reduce using rule 8 (Function -> FunctionBody .)
-    READ            reduce using rule 8 (Function -> FunctionBody .)
-    -               reduce using rule 8 (Function -> FunctionBody .)
-    NOT             reduce using rule 8 (Function -> FunctionBody .)
+    {               reduce using rule 7 (Function -> FunctionBody .)
+    INTEGER         reduce using rule 7 (Function -> FunctionBody .)
+    BOOL            reduce using rule 7 (Function -> FunctionBody .)
+    VOID            reduce using rule 7 (Function -> FunctionBody .)
+    VAR             reduce using rule 7 (Function -> FunctionBody .)
+    ID              reduce using rule 7 (Function -> FunctionBody .)
+    IF              reduce using rule 7 (Function -> FunctionBody .)
+    WHILE           reduce using rule 7 (Function -> FunctionBody .)
+    FOR             reduce using rule 7 (Function -> FunctionBody .)
+    BREAK           reduce using rule 7 (Function -> FunctionBody .)
+    PRINT           reduce using rule 7 (Function -> FunctionBody .)
+    RETURN          reduce using rule 7 (Function -> FunctionBody .)
 
 
 state 10
 
-    (9) FunctionHeader -> FunctionType . FUNCTION ID ( ParamList ) :
+    (8) FunctionHeader -> FunctionType . FUNCTION ID ( ParamList ) :
 
     FUNCTION        shift and go to state 21
 
 
 state 11
 
-    (13) FunctionBody -> { . VarDecls CmdList }
+    (12) FunctionBody -> { . VarDecls CmdList }
     (68) VarDecls -> . empty
     (69) VarDecls -> . VarDecl VarDecls
     (73) empty -> .
@@ -404,13 +362,6 @@ state 11
     PRINT           reduce using rule 73 (empty -> .)
     RETURN          reduce using rule 73 (empty -> .)
     {               reduce using rule 73 (empty -> .)
-    INT             reduce using rule 73 (empty -> .)
-    TRUE            reduce using rule 73 (empty -> .)
-    FALSE           reduce using rule 73 (empty -> .)
-    (               reduce using rule 73 (empty -> .)
-    READ            reduce using rule 73 (empty -> .)
-    -               reduce using rule 73 (empty -> .)
-    NOT             reduce using rule 73 (empty -> .)
     VAR             shift and go to state 19
 
     VarDecls                       shift and go to state 22
@@ -419,97 +370,80 @@ state 11
 
 state 12
 
-    (10) FunctionType -> INTEGER .
+    (9) FunctionType -> INTEGER .
 
-    FUNCTION        reduce using rule 10 (FunctionType -> INTEGER .)
+    FUNCTION        reduce using rule 9 (FunctionType -> INTEGER .)
 
 
 state 13
 
-    (11) FunctionType -> BOOL .
+    (10) FunctionType -> BOOL .
 
-    FUNCTION        reduce using rule 11 (FunctionType -> BOOL .)
+    FUNCTION        reduce using rule 10 (FunctionType -> BOOL .)
 
 
 state 14
 
-    (12) FunctionType -> VOID .
+    (11) FunctionType -> VOID .
 
-    FUNCTION        reduce using rule 12 (FunctionType -> VOID .)
+    FUNCTION        reduce using rule 11 (FunctionType -> VOID .)
 
 
 state 15
 
-    (3) ProgramHeader -> PROGRAM ID . ;
+    (2) ProgramHeader -> PROGRAM ID . ;
 
     ;               shift and go to state 23
 
 
 state 16
 
-    (4) ProgramBody -> FuncDecls VarDecls . Cmd
-    (19) Cmd -> . CmdAtrib
-    (20) Cmd -> . CmdIf
-    (21) Cmd -> . CmdWhile
-    (22) Cmd -> . CmdFor
-    (23) Cmd -> . CmdBreak
-    (24) Cmd -> . CmdPrint
-    (25) Cmd -> . CmdReturn
-    (26) Cmd -> . CmdSeq
-    (27) CmdAtrib -> . ID
-    (28) CmdAtrib -> . Expr
+    (3) ProgramBody -> FuncDecls VarDecls . Cmds
+    (18) Cmds -> . CmdSeq
+    (19) Cmds -> . Cmd
+    (36) CmdSeq -> . { CmdList }
+    (20) Cmd -> . CmdAtrib
+    (21) Cmd -> . CmdIf
+    (22) Cmd -> . CmdWhile
+    (23) Cmd -> . CmdFor
+    (24) Cmd -> . CmdBreak
+    (25) Cmd -> . CmdPrint
+    (26) Cmd -> . CmdReturn
+    (27) Cmd -> . CmdSeq
+    (28) CmdAtrib -> . ID = Expr
     (29) CmdIf -> . IF Expr : Cmd
     (30) CmdIf -> . IF Expr : Cmd ELSE :
-    (31) CmdWhile -> . WHILE Expr : Cmd
+    (31) CmdWhile -> . WHILE Expr : Cmds
     (32) CmdFor -> . FOR CmdAtrib TO Expr : Cmd
     (33) CmdBreak -> . BREAK
     (34) CmdPrint -> . PRINT ( ExprList )
     (35) CmdReturn -> . RETURN Expr
-    (36) CmdSeq -> . { CmdList }
-    (39) Expr -> . INT
-    (40) Expr -> . TRUE
-    (41) Expr -> . FALSE
-    (42) Expr -> . ID
-    (43) Expr -> . Expr BinOp Expr
-    (44) Expr -> . UnOp Expr
-    (45) Expr -> . ( Expr )
-    (46) Expr -> . ID ( ExprList )
-    (47) Expr -> . READ ( )
-    (62) UnOp -> . -
-    (63) UnOp -> . NOT
 
-    ID              shift and go to state 33
-    IF              shift and go to state 35
-    WHILE           shift and go to state 36
-    FOR             shift and go to state 37
-    BREAK           shift and go to state 38
-    PRINT           shift and go to state 39
+    {               shift and go to state 27
+    ID              shift and go to state 35
+    IF              shift and go to state 36
+    WHILE           shift and go to state 37
+    FOR             shift and go to state 38
+    BREAK           shift and go to state 39
+    PRINT           shift and go to state 40
     RETURN          shift and go to state 41
-    {               shift and go to state 42
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
 
-    Cmd                            shift and go to state 24
-    CmdAtrib                       shift and go to state 25
-    CmdIf                          shift and go to state 26
-    CmdWhile                       shift and go to state 27
-    CmdFor                         shift and go to state 28
-    CmdBreak                       shift and go to state 29
-    CmdPrint                       shift and go to state 30
-    CmdReturn                      shift and go to state 31
-    CmdSeq                         shift and go to state 32
-    Expr                           shift and go to state 34
-    UnOp                           shift and go to state 46
+    Cmds                           shift and go to state 24
+    CmdSeq                         shift and go to state 25
+    Cmd                            shift and go to state 26
+    CmdAtrib                       shift and go to state 28
+    CmdIf                          shift and go to state 29
+    CmdWhile                       shift and go to state 30
+    CmdFor                         shift and go to state 31
+    CmdBreak                       shift and go to state 32
+    CmdPrint                       shift and go to state 33
+    CmdReturn                      shift and go to state 34
 
 state 17
 
     (68) VarDecls -> empty .
 
+    {               reduce using rule 68 (VarDecls -> empty .)
     ID              reduce using rule 68 (VarDecls -> empty .)
     IF              reduce using rule 68 (VarDecls -> empty .)
     WHILE           reduce using rule 68 (VarDecls -> empty .)
@@ -517,14 +451,6 @@ state 17
     BREAK           reduce using rule 68 (VarDecls -> empty .)
     PRINT           reduce using rule 68 (VarDecls -> empty .)
     RETURN          reduce using rule 68 (VarDecls -> empty .)
-    {               reduce using rule 68 (VarDecls -> empty .)
-    INT             reduce using rule 68 (VarDecls -> empty .)
-    TRUE            reduce using rule 68 (VarDecls -> empty .)
-    FALSE           reduce using rule 68 (VarDecls -> empty .)
-    (               reduce using rule 68 (VarDecls -> empty .)
-    READ            reduce using rule 68 (VarDecls -> empty .)
-    -               reduce using rule 68 (VarDecls -> empty .)
-    NOT             reduce using rule 68 (VarDecls -> empty .)
 
 
 state 18
@@ -535,6 +461,7 @@ state 18
     (73) empty -> .
     (70) VarDecl -> . VAR ID : Type ;
 
+    {               reduce using rule 73 (empty -> .)
     ID              reduce using rule 73 (empty -> .)
     IF              reduce using rule 73 (empty -> .)
     WHILE           reduce using rule 73 (empty -> .)
@@ -542,295 +469,260 @@ state 18
     BREAK           reduce using rule 73 (empty -> .)
     PRINT           reduce using rule 73 (empty -> .)
     RETURN          reduce using rule 73 (empty -> .)
-    {               reduce using rule 73 (empty -> .)
-    INT             reduce using rule 73 (empty -> .)
-    TRUE            reduce using rule 73 (empty -> .)
-    FALSE           reduce using rule 73 (empty -> .)
-    (               reduce using rule 73 (empty -> .)
-    READ            reduce using rule 73 (empty -> .)
-    -               reduce using rule 73 (empty -> .)
-    NOT             reduce using rule 73 (empty -> .)
     VAR             shift and go to state 19
 
     VarDecl                        shift and go to state 18
-    VarDecls                       shift and go to state 50
+    VarDecls                       shift and go to state 42
     empty                          shift and go to state 17
 
 state 19
 
     (70) VarDecl -> VAR . ID : Type ;
 
-    ID              shift and go to state 51
+    ID              shift and go to state 43
 
 
 state 20
 
-    (6) FuncDecls -> Function FuncDecls .
+    (5) FuncDecls -> Function FuncDecls .
 
-    VAR             reduce using rule 6 (FuncDecls -> Function FuncDecls .)
-    ID              reduce using rule 6 (FuncDecls -> Function FuncDecls .)
-    IF              reduce using rule 6 (FuncDecls -> Function FuncDecls .)
-    WHILE           reduce using rule 6 (FuncDecls -> Function FuncDecls .)
-    FOR             reduce using rule 6 (FuncDecls -> Function FuncDecls .)
-    BREAK           reduce using rule 6 (FuncDecls -> Function FuncDecls .)
-    PRINT           reduce using rule 6 (FuncDecls -> Function FuncDecls .)
-    RETURN          reduce using rule 6 (FuncDecls -> Function FuncDecls .)
-    {               reduce using rule 6 (FuncDecls -> Function FuncDecls .)
-    INT             reduce using rule 6 (FuncDecls -> Function FuncDecls .)
-    TRUE            reduce using rule 6 (FuncDecls -> Function FuncDecls .)
-    FALSE           reduce using rule 6 (FuncDecls -> Function FuncDecls .)
-    (               reduce using rule 6 (FuncDecls -> Function FuncDecls .)
-    READ            reduce using rule 6 (FuncDecls -> Function FuncDecls .)
-    -               reduce using rule 6 (FuncDecls -> Function FuncDecls .)
-    NOT             reduce using rule 6 (FuncDecls -> Function FuncDecls .)
+    VAR             reduce using rule 5 (FuncDecls -> Function FuncDecls .)
+    {               reduce using rule 5 (FuncDecls -> Function FuncDecls .)
+    ID              reduce using rule 5 (FuncDecls -> Function FuncDecls .)
+    IF              reduce using rule 5 (FuncDecls -> Function FuncDecls .)
+    WHILE           reduce using rule 5 (FuncDecls -> Function FuncDecls .)
+    FOR             reduce using rule 5 (FuncDecls -> Function FuncDecls .)
+    BREAK           reduce using rule 5 (FuncDecls -> Function FuncDecls .)
+    PRINT           reduce using rule 5 (FuncDecls -> Function FuncDecls .)
+    RETURN          reduce using rule 5 (FuncDecls -> Function FuncDecls .)
 
 
 state 21
 
-    (9) FunctionHeader -> FunctionType FUNCTION . ID ( ParamList ) :
+    (8) FunctionHeader -> FunctionType FUNCTION . ID ( ParamList ) :
 
-    ID              shift and go to state 52
+    ID              shift and go to state 44
 
 
 state 22
 
-    (13) FunctionBody -> { VarDecls . CmdList }
+    (12) FunctionBody -> { VarDecls . CmdList }
     (37) CmdList -> . Cmd ; CmdList
     (38) CmdList -> . Cmd
-    (19) Cmd -> . CmdAtrib
-    (20) Cmd -> . CmdIf
-    (21) Cmd -> . CmdWhile
-    (22) Cmd -> . CmdFor
-    (23) Cmd -> . CmdBreak
-    (24) Cmd -> . CmdPrint
-    (25) Cmd -> . CmdReturn
-    (26) Cmd -> . CmdSeq
-    (27) CmdAtrib -> . ID
-    (28) CmdAtrib -> . Expr
+    (20) Cmd -> . CmdAtrib
+    (21) Cmd -> . CmdIf
+    (22) Cmd -> . CmdWhile
+    (23) Cmd -> . CmdFor
+    (24) Cmd -> . CmdBreak
+    (25) Cmd -> . CmdPrint
+    (26) Cmd -> . CmdReturn
+    (27) Cmd -> . CmdSeq
+    (28) CmdAtrib -> . ID = Expr
     (29) CmdIf -> . IF Expr : Cmd
     (30) CmdIf -> . IF Expr : Cmd ELSE :
-    (31) CmdWhile -> . WHILE Expr : Cmd
+    (31) CmdWhile -> . WHILE Expr : Cmds
     (32) CmdFor -> . FOR CmdAtrib TO Expr : Cmd
     (33) CmdBreak -> . BREAK
     (34) CmdPrint -> . PRINT ( ExprList )
     (35) CmdReturn -> . RETURN Expr
     (36) CmdSeq -> . { CmdList }
-    (39) Expr -> . INT
-    (40) Expr -> . TRUE
-    (41) Expr -> . FALSE
-    (42) Expr -> . ID
-    (43) Expr -> . Expr BinOp Expr
-    (44) Expr -> . UnOp Expr
-    (45) Expr -> . ( Expr )
-    (46) Expr -> . ID ( ExprList )
-    (47) Expr -> . READ ( )
-    (62) UnOp -> . -
-    (63) UnOp -> . NOT
 
-    ID              shift and go to state 33
-    IF              shift and go to state 35
-    WHILE           shift and go to state 36
-    FOR             shift and go to state 37
-    BREAK           shift and go to state 38
-    PRINT           shift and go to state 39
+    ID              shift and go to state 35
+    IF              shift and go to state 36
+    WHILE           shift and go to state 37
+    FOR             shift and go to state 38
+    BREAK           shift and go to state 39
+    PRINT           shift and go to state 40
     RETURN          shift and go to state 41
-    {               shift and go to state 42
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
+    {               shift and go to state 27
 
-    CmdList                        shift and go to state 53
-    Cmd                            shift and go to state 54
-    CmdAtrib                       shift and go to state 25
-    CmdIf                          shift and go to state 26
-    CmdWhile                       shift and go to state 27
-    CmdFor                         shift and go to state 28
-    CmdBreak                       shift and go to state 29
-    CmdPrint                       shift and go to state 30
-    CmdReturn                      shift and go to state 31
-    CmdSeq                         shift and go to state 32
-    Expr                           shift and go to state 34
-    UnOp                           shift and go to state 46
+    CmdList                        shift and go to state 45
+    Cmd                            shift and go to state 46
+    CmdAtrib                       shift and go to state 28
+    CmdIf                          shift and go to state 29
+    CmdWhile                       shift and go to state 30
+    CmdFor                         shift and go to state 31
+    CmdBreak                       shift and go to state 32
+    CmdPrint                       shift and go to state 33
+    CmdReturn                      shift and go to state 34
+    CmdSeq                         shift and go to state 47
 
 state 23
 
-    (3) ProgramHeader -> PROGRAM ID ; .
+    (2) ProgramHeader -> PROGRAM ID ; .
 
-    $end            reduce using rule 3 (ProgramHeader -> PROGRAM ID ; .)
+    {               reduce using rule 2 (ProgramHeader -> PROGRAM ID ; .)
+    INTEGER         reduce using rule 2 (ProgramHeader -> PROGRAM ID ; .)
+    BOOL            reduce using rule 2 (ProgramHeader -> PROGRAM ID ; .)
+    VOID            reduce using rule 2 (ProgramHeader -> PROGRAM ID ; .)
+    VAR             reduce using rule 2 (ProgramHeader -> PROGRAM ID ; .)
+    ID              reduce using rule 2 (ProgramHeader -> PROGRAM ID ; .)
+    IF              reduce using rule 2 (ProgramHeader -> PROGRAM ID ; .)
+    WHILE           reduce using rule 2 (ProgramHeader -> PROGRAM ID ; .)
+    FOR             reduce using rule 2 (ProgramHeader -> PROGRAM ID ; .)
+    BREAK           reduce using rule 2 (ProgramHeader -> PROGRAM ID ; .)
+    PRINT           reduce using rule 2 (ProgramHeader -> PROGRAM ID ; .)
+    RETURN          reduce using rule 2 (ProgramHeader -> PROGRAM ID ; .)
 
 
 state 24
 
-    (4) ProgramBody -> FuncDecls VarDecls Cmd .
+    (3) ProgramBody -> FuncDecls VarDecls Cmds .
 
-    $end            reduce using rule 4 (ProgramBody -> FuncDecls VarDecls Cmd .)
+    $end            reduce using rule 3 (ProgramBody -> FuncDecls VarDecls Cmds .)
 
 
 state 25
 
-    (19) Cmd -> CmdAtrib .
+    (18) Cmds -> CmdSeq .
+    (27) Cmd -> CmdSeq .
 
-    $end            reduce using rule 19 (Cmd -> CmdAtrib .)
-    ;               reduce using rule 19 (Cmd -> CmdAtrib .)
-    }               reduce using rule 19 (Cmd -> CmdAtrib .)
-    ELSE            reduce using rule 19 (Cmd -> CmdAtrib .)
+  ! reduce/reduce conflict for $end resolved using rule 18 (Cmds -> CmdSeq .)
+  ! reduce/reduce conflict for ELSE resolved using rule 18 (Cmds -> CmdSeq .)
+  ! reduce/reduce conflict for ; resolved using rule 18 (Cmds -> CmdSeq .)
+  ! reduce/reduce conflict for } resolved using rule 18 (Cmds -> CmdSeq .)
+    $end            reduce using rule 18 (Cmds -> CmdSeq .)
+    ELSE            reduce using rule 18 (Cmds -> CmdSeq .)
+    ;               reduce using rule 18 (Cmds -> CmdSeq .)
+    }               reduce using rule 18 (Cmds -> CmdSeq .)
+
+  ! $end            [ reduce using rule 27 (Cmd -> CmdSeq .) ]
+  ! ELSE            [ reduce using rule 27 (Cmd -> CmdSeq .) ]
+  ! ;               [ reduce using rule 27 (Cmd -> CmdSeq .) ]
+  ! }               [ reduce using rule 27 (Cmd -> CmdSeq .) ]
 
 
 state 26
 
-    (20) Cmd -> CmdIf .
+    (19) Cmds -> Cmd .
 
-    $end            reduce using rule 20 (Cmd -> CmdIf .)
-    ;               reduce using rule 20 (Cmd -> CmdIf .)
-    }               reduce using rule 20 (Cmd -> CmdIf .)
-    ELSE            reduce using rule 20 (Cmd -> CmdIf .)
+    $end            reduce using rule 19 (Cmds -> Cmd .)
+    ELSE            reduce using rule 19 (Cmds -> Cmd .)
+    ;               reduce using rule 19 (Cmds -> Cmd .)
+    }               reduce using rule 19 (Cmds -> Cmd .)
 
 
 state 27
 
-    (21) Cmd -> CmdWhile .
+    (36) CmdSeq -> { . CmdList }
+    (37) CmdList -> . Cmd ; CmdList
+    (38) CmdList -> . Cmd
+    (20) Cmd -> . CmdAtrib
+    (21) Cmd -> . CmdIf
+    (22) Cmd -> . CmdWhile
+    (23) Cmd -> . CmdFor
+    (24) Cmd -> . CmdBreak
+    (25) Cmd -> . CmdPrint
+    (26) Cmd -> . CmdReturn
+    (27) Cmd -> . CmdSeq
+    (28) CmdAtrib -> . ID = Expr
+    (29) CmdIf -> . IF Expr : Cmd
+    (30) CmdIf -> . IF Expr : Cmd ELSE :
+    (31) CmdWhile -> . WHILE Expr : Cmds
+    (32) CmdFor -> . FOR CmdAtrib TO Expr : Cmd
+    (33) CmdBreak -> . BREAK
+    (34) CmdPrint -> . PRINT ( ExprList )
+    (35) CmdReturn -> . RETURN Expr
+    (36) CmdSeq -> . { CmdList }
 
-    $end            reduce using rule 21 (Cmd -> CmdWhile .)
-    ;               reduce using rule 21 (Cmd -> CmdWhile .)
-    }               reduce using rule 21 (Cmd -> CmdWhile .)
-    ELSE            reduce using rule 21 (Cmd -> CmdWhile .)
+    ID              shift and go to state 35
+    IF              shift and go to state 36
+    WHILE           shift and go to state 37
+    FOR             shift and go to state 38
+    BREAK           shift and go to state 39
+    PRINT           shift and go to state 40
+    RETURN          shift and go to state 41
+    {               shift and go to state 27
 
+    CmdList                        shift and go to state 48
+    Cmd                            shift and go to state 46
+    CmdAtrib                       shift and go to state 28
+    CmdIf                          shift and go to state 29
+    CmdWhile                       shift and go to state 30
+    CmdFor                         shift and go to state 31
+    CmdBreak                       shift and go to state 32
+    CmdPrint                       shift and go to state 33
+    CmdReturn                      shift and go to state 34
+    CmdSeq                         shift and go to state 47
 
 state 28
 
-    (22) Cmd -> CmdFor .
+    (20) Cmd -> CmdAtrib .
 
-    $end            reduce using rule 22 (Cmd -> CmdFor .)
-    ;               reduce using rule 22 (Cmd -> CmdFor .)
-    }               reduce using rule 22 (Cmd -> CmdFor .)
-    ELSE            reduce using rule 22 (Cmd -> CmdFor .)
+    $end            reduce using rule 20 (Cmd -> CmdAtrib .)
+    ;               reduce using rule 20 (Cmd -> CmdAtrib .)
+    }               reduce using rule 20 (Cmd -> CmdAtrib .)
+    ELSE            reduce using rule 20 (Cmd -> CmdAtrib .)
 
 
 state 29
 
-    (23) Cmd -> CmdBreak .
+    (21) Cmd -> CmdIf .
 
-    $end            reduce using rule 23 (Cmd -> CmdBreak .)
-    ;               reduce using rule 23 (Cmd -> CmdBreak .)
-    }               reduce using rule 23 (Cmd -> CmdBreak .)
-    ELSE            reduce using rule 23 (Cmd -> CmdBreak .)
+    $end            reduce using rule 21 (Cmd -> CmdIf .)
+    ;               reduce using rule 21 (Cmd -> CmdIf .)
+    }               reduce using rule 21 (Cmd -> CmdIf .)
+    ELSE            reduce using rule 21 (Cmd -> CmdIf .)
 
 
 state 30
 
-    (24) Cmd -> CmdPrint .
+    (22) Cmd -> CmdWhile .
 
-    $end            reduce using rule 24 (Cmd -> CmdPrint .)
-    ;               reduce using rule 24 (Cmd -> CmdPrint .)
-    }               reduce using rule 24 (Cmd -> CmdPrint .)
-    ELSE            reduce using rule 24 (Cmd -> CmdPrint .)
+    $end            reduce using rule 22 (Cmd -> CmdWhile .)
+    ;               reduce using rule 22 (Cmd -> CmdWhile .)
+    }               reduce using rule 22 (Cmd -> CmdWhile .)
+    ELSE            reduce using rule 22 (Cmd -> CmdWhile .)
 
 
 state 31
 
-    (25) Cmd -> CmdReturn .
+    (23) Cmd -> CmdFor .
 
-    $end            reduce using rule 25 (Cmd -> CmdReturn .)
-    ;               reduce using rule 25 (Cmd -> CmdReturn .)
-    }               reduce using rule 25 (Cmd -> CmdReturn .)
-    ELSE            reduce using rule 25 (Cmd -> CmdReturn .)
+    $end            reduce using rule 23 (Cmd -> CmdFor .)
+    ;               reduce using rule 23 (Cmd -> CmdFor .)
+    }               reduce using rule 23 (Cmd -> CmdFor .)
+    ELSE            reduce using rule 23 (Cmd -> CmdFor .)
 
 
 state 32
 
-    (26) Cmd -> CmdSeq .
+    (24) Cmd -> CmdBreak .
 
-    $end            reduce using rule 26 (Cmd -> CmdSeq .)
-    ;               reduce using rule 26 (Cmd -> CmdSeq .)
-    }               reduce using rule 26 (Cmd -> CmdSeq .)
-    ELSE            reduce using rule 26 (Cmd -> CmdSeq .)
+    $end            reduce using rule 24 (Cmd -> CmdBreak .)
+    ;               reduce using rule 24 (Cmd -> CmdBreak .)
+    }               reduce using rule 24 (Cmd -> CmdBreak .)
+    ELSE            reduce using rule 24 (Cmd -> CmdBreak .)
 
 
 state 33
 
-    (27) CmdAtrib -> ID .
-    (42) Expr -> ID .
-    (46) Expr -> ID . ( ExprList )
+    (25) Cmd -> CmdPrint .
 
-  ! reduce/reduce conflict for $end resolved using rule 27 (CmdAtrib -> ID .)
-  ! reduce/reduce conflict for ; resolved using rule 27 (CmdAtrib -> ID .)
-  ! reduce/reduce conflict for } resolved using rule 27 (CmdAtrib -> ID .)
-  ! reduce/reduce conflict for TO resolved using rule 27 (CmdAtrib -> ID .)
-  ! reduce/reduce conflict for ELSE resolved using rule 27 (CmdAtrib -> ID .)
-    $end            reduce using rule 27 (CmdAtrib -> ID .)
-    ;               reduce using rule 27 (CmdAtrib -> ID .)
-    }               reduce using rule 27 (CmdAtrib -> ID .)
-    TO              reduce using rule 27 (CmdAtrib -> ID .)
-    ELSE            reduce using rule 27 (CmdAtrib -> ID .)
-    +               reduce using rule 42 (Expr -> ID .)
-    -               reduce using rule 42 (Expr -> ID .)
-    *               reduce using rule 42 (Expr -> ID .)
-    DIVIDE          reduce using rule 42 (Expr -> ID .)
-    EXP             reduce using rule 42 (Expr -> ID .)
-    %               reduce using rule 42 (Expr -> ID .)
-    EQUAL           reduce using rule 42 (Expr -> ID .)
-    NOTEQUAL        reduce using rule 42 (Expr -> ID .)
-    <               reduce using rule 42 (Expr -> ID .)
-    >               reduce using rule 42 (Expr -> ID .)
-    LESSEQUAL       reduce using rule 42 (Expr -> ID .)
-    GREATEREQUAL    reduce using rule 42 (Expr -> ID .)
-    AND             reduce using rule 42 (Expr -> ID .)
-    OR              reduce using rule 42 (Expr -> ID .)
-    (               shift and go to state 55
-
-  ! $end            [ reduce using rule 42 (Expr -> ID .) ]
-  ! ;               [ reduce using rule 42 (Expr -> ID .) ]
-  ! }               [ reduce using rule 42 (Expr -> ID .) ]
-  ! TO              [ reduce using rule 42 (Expr -> ID .) ]
-  ! ELSE            [ reduce using rule 42 (Expr -> ID .) ]
+    $end            reduce using rule 25 (Cmd -> CmdPrint .)
+    ;               reduce using rule 25 (Cmd -> CmdPrint .)
+    }               reduce using rule 25 (Cmd -> CmdPrint .)
+    ELSE            reduce using rule 25 (Cmd -> CmdPrint .)
 
 
 state 34
 
-    (28) CmdAtrib -> Expr .
-    (43) Expr -> Expr . BinOp Expr
-    (48) BinOp -> . +
-    (49) BinOp -> . -
-    (50) BinOp -> . *
-    (51) BinOp -> . DIVIDE
-    (52) BinOp -> . EXP
-    (53) BinOp -> . %
-    (54) BinOp -> . EQUAL
-    (55) BinOp -> . NOTEQUAL
-    (56) BinOp -> . <
-    (57) BinOp -> . >
-    (58) BinOp -> . LESSEQUAL
-    (59) BinOp -> . GREATEREQUAL
-    (60) BinOp -> . AND
-    (61) BinOp -> . OR
+    (26) Cmd -> CmdReturn .
 
-    $end            reduce using rule 28 (CmdAtrib -> Expr .)
-    ;               reduce using rule 28 (CmdAtrib -> Expr .)
-    }               reduce using rule 28 (CmdAtrib -> Expr .)
-    TO              reduce using rule 28 (CmdAtrib -> Expr .)
-    ELSE            reduce using rule 28 (CmdAtrib -> Expr .)
-    +               shift and go to state 57
-    -               shift and go to state 58
-    *               shift and go to state 59
-    DIVIDE          shift and go to state 60
-    EXP             shift and go to state 61
-    %               shift and go to state 62
-    EQUAL           shift and go to state 63
-    NOTEQUAL        shift and go to state 64
-    <               shift and go to state 65
-    >               shift and go to state 66
-    LESSEQUAL       shift and go to state 67
-    GREATEREQUAL    shift and go to state 68
-    AND             shift and go to state 69
-    OR              shift and go to state 70
+    $end            reduce using rule 26 (Cmd -> CmdReturn .)
+    ;               reduce using rule 26 (Cmd -> CmdReturn .)
+    }               reduce using rule 26 (Cmd -> CmdReturn .)
+    ELSE            reduce using rule 26 (Cmd -> CmdReturn .)
 
-    BinOp                          shift and go to state 56
 
 state 35
+
+    (28) CmdAtrib -> ID . = Expr
+
+    =               shift and go to state 49
+
+
+state 36
 
     (29) CmdIf -> IF . Expr : Cmd
     (30) CmdIf -> IF . Expr : Cmd ELSE :
@@ -846,50 +738,21 @@ state 35
     (62) UnOp -> . -
     (63) UnOp -> . NOT
 
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    ID              shift and go to state 72
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
+    INT             shift and go to state 51
+    TRUE            shift and go to state 52
+    FALSE           shift and go to state 53
+    ID              shift and go to state 54
+    (               shift and go to state 56
+    READ            shift and go to state 57
+    -               shift and go to state 58
+    NOT             shift and go to state 59
 
-    Expr                           shift and go to state 71
-    UnOp                           shift and go to state 46
-
-state 36
-
-    (31) CmdWhile -> WHILE . Expr : Cmd
-    (39) Expr -> . INT
-    (40) Expr -> . TRUE
-    (41) Expr -> . FALSE
-    (42) Expr -> . ID
-    (43) Expr -> . Expr BinOp Expr
-    (44) Expr -> . UnOp Expr
-    (45) Expr -> . ( Expr )
-    (46) Expr -> . ID ( ExprList )
-    (47) Expr -> . READ ( )
-    (62) UnOp -> . -
-    (63) UnOp -> . NOT
-
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    ID              shift and go to state 72
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
-
-    Expr                           shift and go to state 73
-    UnOp                           shift and go to state 46
+    Expr                           shift and go to state 50
+    UnOp                           shift and go to state 55
 
 state 37
 
-    (32) CmdFor -> FOR . CmdAtrib TO Expr : Cmd
-    (27) CmdAtrib -> . ID
-    (28) CmdAtrib -> . Expr
+    (31) CmdWhile -> WHILE . Expr : Cmds
     (39) Expr -> . INT
     (40) Expr -> . TRUE
     (41) Expr -> . FALSE
@@ -902,20 +765,28 @@ state 37
     (62) UnOp -> . -
     (63) UnOp -> . NOT
 
-    ID              shift and go to state 33
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
+    INT             shift and go to state 51
+    TRUE            shift and go to state 52
+    FALSE           shift and go to state 53
+    ID              shift and go to state 54
+    (               shift and go to state 56
+    READ            shift and go to state 57
+    -               shift and go to state 58
+    NOT             shift and go to state 59
 
-    CmdAtrib                       shift and go to state 74
-    Expr                           shift and go to state 34
-    UnOp                           shift and go to state 46
+    Expr                           shift and go to state 60
+    UnOp                           shift and go to state 55
 
 state 38
+
+    (32) CmdFor -> FOR . CmdAtrib TO Expr : Cmd
+    (28) CmdAtrib -> . ID = Expr
+
+    ID              shift and go to state 35
+
+    CmdAtrib                       shift and go to state 61
+
+state 39
 
     (33) CmdBreak -> BREAK .
 
@@ -925,39 +796,12 @@ state 38
     ELSE            reduce using rule 33 (CmdBreak -> BREAK .)
 
 
-state 39
+state 40
 
     (34) CmdPrint -> PRINT . ( ExprList )
 
-    (               shift and go to state 75
+    (               shift and go to state 62
 
-
-state 40
-
-    (45) Expr -> ( . Expr )
-    (39) Expr -> . INT
-    (40) Expr -> . TRUE
-    (41) Expr -> . FALSE
-    (42) Expr -> . ID
-    (43) Expr -> . Expr BinOp Expr
-    (44) Expr -> . UnOp Expr
-    (45) Expr -> . ( Expr )
-    (46) Expr -> . ID ( ExprList )
-    (47) Expr -> . READ ( )
-    (62) UnOp -> . -
-    (63) UnOp -> . NOT
-
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    ID              shift and go to state 72
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
-
-    Expr                           shift and go to state 76
-    UnOp                           shift and go to state 46
 
 state 41
 
@@ -974,232 +818,23 @@ state 41
     (62) UnOp -> . -
     (63) UnOp -> . NOT
 
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    ID              shift and go to state 72
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
+    INT             shift and go to state 51
+    TRUE            shift and go to state 52
+    FALSE           shift and go to state 53
+    ID              shift and go to state 54
+    (               shift and go to state 56
+    READ            shift and go to state 57
+    -               shift and go to state 58
+    NOT             shift and go to state 59
 
-    Expr                           shift and go to state 77
-    UnOp                           shift and go to state 46
+    Expr                           shift and go to state 63
+    UnOp                           shift and go to state 55
 
 state 42
 
-    (36) CmdSeq -> { . CmdList }
-    (37) CmdList -> . Cmd ; CmdList
-    (38) CmdList -> . Cmd
-    (19) Cmd -> . CmdAtrib
-    (20) Cmd -> . CmdIf
-    (21) Cmd -> . CmdWhile
-    (22) Cmd -> . CmdFor
-    (23) Cmd -> . CmdBreak
-    (24) Cmd -> . CmdPrint
-    (25) Cmd -> . CmdReturn
-    (26) Cmd -> . CmdSeq
-    (27) CmdAtrib -> . ID
-    (28) CmdAtrib -> . Expr
-    (29) CmdIf -> . IF Expr : Cmd
-    (30) CmdIf -> . IF Expr : Cmd ELSE :
-    (31) CmdWhile -> . WHILE Expr : Cmd
-    (32) CmdFor -> . FOR CmdAtrib TO Expr : Cmd
-    (33) CmdBreak -> . BREAK
-    (34) CmdPrint -> . PRINT ( ExprList )
-    (35) CmdReturn -> . RETURN Expr
-    (36) CmdSeq -> . { CmdList }
-    (39) Expr -> . INT
-    (40) Expr -> . TRUE
-    (41) Expr -> . FALSE
-    (42) Expr -> . ID
-    (43) Expr -> . Expr BinOp Expr
-    (44) Expr -> . UnOp Expr
-    (45) Expr -> . ( Expr )
-    (46) Expr -> . ID ( ExprList )
-    (47) Expr -> . READ ( )
-    (62) UnOp -> . -
-    (63) UnOp -> . NOT
-
-    ID              shift and go to state 33
-    IF              shift and go to state 35
-    WHILE           shift and go to state 36
-    FOR             shift and go to state 37
-    BREAK           shift and go to state 38
-    PRINT           shift and go to state 39
-    RETURN          shift and go to state 41
-    {               shift and go to state 42
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
-
-    CmdList                        shift and go to state 78
-    Cmd                            shift and go to state 54
-    CmdAtrib                       shift and go to state 25
-    CmdIf                          shift and go to state 26
-    CmdWhile                       shift and go to state 27
-    CmdFor                         shift and go to state 28
-    CmdBreak                       shift and go to state 29
-    CmdPrint                       shift and go to state 30
-    CmdReturn                      shift and go to state 31
-    CmdSeq                         shift and go to state 32
-    Expr                           shift and go to state 34
-    UnOp                           shift and go to state 46
-
-state 43
-
-    (39) Expr -> INT .
-
-    +               reduce using rule 39 (Expr -> INT .)
-    -               reduce using rule 39 (Expr -> INT .)
-    *               reduce using rule 39 (Expr -> INT .)
-    DIVIDE          reduce using rule 39 (Expr -> INT .)
-    EXP             reduce using rule 39 (Expr -> INT .)
-    %               reduce using rule 39 (Expr -> INT .)
-    EQUAL           reduce using rule 39 (Expr -> INT .)
-    NOTEQUAL        reduce using rule 39 (Expr -> INT .)
-    <               reduce using rule 39 (Expr -> INT .)
-    >               reduce using rule 39 (Expr -> INT .)
-    LESSEQUAL       reduce using rule 39 (Expr -> INT .)
-    GREATEREQUAL    reduce using rule 39 (Expr -> INT .)
-    AND             reduce using rule 39 (Expr -> INT .)
-    OR              reduce using rule 39 (Expr -> INT .)
-    $end            reduce using rule 39 (Expr -> INT .)
-    ;               reduce using rule 39 (Expr -> INT .)
-    }               reduce using rule 39 (Expr -> INT .)
-    :               reduce using rule 39 (Expr -> INT .)
-    TO              reduce using rule 39 (Expr -> INT .)
-    )               reduce using rule 39 (Expr -> INT .)
-    ELSE            reduce using rule 39 (Expr -> INT .)
-    ,               reduce using rule 39 (Expr -> INT .)
-
-
-state 44
-
-    (40) Expr -> TRUE .
-
-    +               reduce using rule 40 (Expr -> TRUE .)
-    -               reduce using rule 40 (Expr -> TRUE .)
-    *               reduce using rule 40 (Expr -> TRUE .)
-    DIVIDE          reduce using rule 40 (Expr -> TRUE .)
-    EXP             reduce using rule 40 (Expr -> TRUE .)
-    %               reduce using rule 40 (Expr -> TRUE .)
-    EQUAL           reduce using rule 40 (Expr -> TRUE .)
-    NOTEQUAL        reduce using rule 40 (Expr -> TRUE .)
-    <               reduce using rule 40 (Expr -> TRUE .)
-    >               reduce using rule 40 (Expr -> TRUE .)
-    LESSEQUAL       reduce using rule 40 (Expr -> TRUE .)
-    GREATEREQUAL    reduce using rule 40 (Expr -> TRUE .)
-    AND             reduce using rule 40 (Expr -> TRUE .)
-    OR              reduce using rule 40 (Expr -> TRUE .)
-    $end            reduce using rule 40 (Expr -> TRUE .)
-    ;               reduce using rule 40 (Expr -> TRUE .)
-    }               reduce using rule 40 (Expr -> TRUE .)
-    :               reduce using rule 40 (Expr -> TRUE .)
-    TO              reduce using rule 40 (Expr -> TRUE .)
-    )               reduce using rule 40 (Expr -> TRUE .)
-    ELSE            reduce using rule 40 (Expr -> TRUE .)
-    ,               reduce using rule 40 (Expr -> TRUE .)
-
-
-state 45
-
-    (41) Expr -> FALSE .
-
-    +               reduce using rule 41 (Expr -> FALSE .)
-    -               reduce using rule 41 (Expr -> FALSE .)
-    *               reduce using rule 41 (Expr -> FALSE .)
-    DIVIDE          reduce using rule 41 (Expr -> FALSE .)
-    EXP             reduce using rule 41 (Expr -> FALSE .)
-    %               reduce using rule 41 (Expr -> FALSE .)
-    EQUAL           reduce using rule 41 (Expr -> FALSE .)
-    NOTEQUAL        reduce using rule 41 (Expr -> FALSE .)
-    <               reduce using rule 41 (Expr -> FALSE .)
-    >               reduce using rule 41 (Expr -> FALSE .)
-    LESSEQUAL       reduce using rule 41 (Expr -> FALSE .)
-    GREATEREQUAL    reduce using rule 41 (Expr -> FALSE .)
-    AND             reduce using rule 41 (Expr -> FALSE .)
-    OR              reduce using rule 41 (Expr -> FALSE .)
-    $end            reduce using rule 41 (Expr -> FALSE .)
-    ;               reduce using rule 41 (Expr -> FALSE .)
-    }               reduce using rule 41 (Expr -> FALSE .)
-    :               reduce using rule 41 (Expr -> FALSE .)
-    TO              reduce using rule 41 (Expr -> FALSE .)
-    )               reduce using rule 41 (Expr -> FALSE .)
-    ELSE            reduce using rule 41 (Expr -> FALSE .)
-    ,               reduce using rule 41 (Expr -> FALSE .)
-
-
-state 46
-
-    (44) Expr -> UnOp . Expr
-    (39) Expr -> . INT
-    (40) Expr -> . TRUE
-    (41) Expr -> . FALSE
-    (42) Expr -> . ID
-    (43) Expr -> . Expr BinOp Expr
-    (44) Expr -> . UnOp Expr
-    (45) Expr -> . ( Expr )
-    (46) Expr -> . ID ( ExprList )
-    (47) Expr -> . READ ( )
-    (62) UnOp -> . -
-    (63) UnOp -> . NOT
-
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    ID              shift and go to state 72
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
-
-    UnOp                           shift and go to state 46
-    Expr                           shift and go to state 79
-
-state 47
-
-    (47) Expr -> READ . ( )
-
-    (               shift and go to state 80
-
-
-state 48
-
-    (62) UnOp -> - .
-
-    INT             reduce using rule 62 (UnOp -> - .)
-    TRUE            reduce using rule 62 (UnOp -> - .)
-    FALSE           reduce using rule 62 (UnOp -> - .)
-    ID              reduce using rule 62 (UnOp -> - .)
-    (               reduce using rule 62 (UnOp -> - .)
-    READ            reduce using rule 62 (UnOp -> - .)
-    -               reduce using rule 62 (UnOp -> - .)
-    NOT             reduce using rule 62 (UnOp -> - .)
-
-
-state 49
-
-    (63) UnOp -> NOT .
-
-    INT             reduce using rule 63 (UnOp -> NOT .)
-    TRUE            reduce using rule 63 (UnOp -> NOT .)
-    FALSE           reduce using rule 63 (UnOp -> NOT .)
-    ID              reduce using rule 63 (UnOp -> NOT .)
-    (               reduce using rule 63 (UnOp -> NOT .)
-    READ            reduce using rule 63 (UnOp -> NOT .)
-    -               reduce using rule 63 (UnOp -> NOT .)
-    NOT             reduce using rule 63 (UnOp -> NOT .)
-
-
-state 50
-
     (69) VarDecls -> VarDecl VarDecls .
 
+    {               reduce using rule 69 (VarDecls -> VarDecl VarDecls .)
     ID              reduce using rule 69 (VarDecls -> VarDecl VarDecls .)
     IF              reduce using rule 69 (VarDecls -> VarDecl VarDecls .)
     WHILE           reduce using rule 69 (VarDecls -> VarDecl VarDecls .)
@@ -1207,54 +842,58 @@ state 50
     BREAK           reduce using rule 69 (VarDecls -> VarDecl VarDecls .)
     PRINT           reduce using rule 69 (VarDecls -> VarDecl VarDecls .)
     RETURN          reduce using rule 69 (VarDecls -> VarDecl VarDecls .)
-    {               reduce using rule 69 (VarDecls -> VarDecl VarDecls .)
-    INT             reduce using rule 69 (VarDecls -> VarDecl VarDecls .)
-    TRUE            reduce using rule 69 (VarDecls -> VarDecl VarDecls .)
-    FALSE           reduce using rule 69 (VarDecls -> VarDecl VarDecls .)
-    (               reduce using rule 69 (VarDecls -> VarDecl VarDecls .)
-    READ            reduce using rule 69 (VarDecls -> VarDecl VarDecls .)
-    -               reduce using rule 69 (VarDecls -> VarDecl VarDecls .)
-    NOT             reduce using rule 69 (VarDecls -> VarDecl VarDecls .)
 
 
-state 51
+state 43
 
     (70) VarDecl -> VAR ID . : Type ;
 
-    :               shift and go to state 81
+    :               shift and go to state 64
 
 
-state 52
+state 44
 
-    (9) FunctionHeader -> FunctionType FUNCTION ID . ( ParamList ) :
+    (8) FunctionHeader -> FunctionType FUNCTION ID . ( ParamList ) :
 
-    (               shift and go to state 82
-
-
-state 53
-
-    (13) FunctionBody -> { VarDecls CmdList . }
-
-    }               shift and go to state 83
+    (               shift and go to state 65
 
 
-state 54
+state 45
+
+    (12) FunctionBody -> { VarDecls CmdList . }
+
+    }               shift and go to state 66
+
+
+state 46
 
     (37) CmdList -> Cmd . ; CmdList
     (38) CmdList -> Cmd .
 
-    ;               shift and go to state 84
+    ;               shift and go to state 67
     }               reduce using rule 38 (CmdList -> Cmd .)
 
 
-state 55
+state 47
 
-    (46) Expr -> ID ( . ExprList )
-    (64) ExprList -> . empty
-    (65) ExprList -> . ExprList1
-    (73) empty -> .
-    (66) ExprList1 -> . Expr
-    (67) ExprList1 -> . Expr , ExprList1
+    (27) Cmd -> CmdSeq .
+
+    ;               reduce using rule 27 (Cmd -> CmdSeq .)
+    }               reduce using rule 27 (Cmd -> CmdSeq .)
+    ELSE            reduce using rule 27 (Cmd -> CmdSeq .)
+    $end            reduce using rule 27 (Cmd -> CmdSeq .)
+
+
+state 48
+
+    (36) CmdSeq -> { CmdList . }
+
+    }               shift and go to state 68
+
+
+state 49
+
+    (28) CmdAtrib -> ID = . Expr
     (39) Expr -> . INT
     (40) Expr -> . TRUE
     (41) Expr -> . FALSE
@@ -1267,246 +906,19 @@ state 55
     (62) UnOp -> . -
     (63) UnOp -> . NOT
 
-    )               reduce using rule 73 (empty -> .)
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    ID              shift and go to state 72
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
+    INT             shift and go to state 51
+    TRUE            shift and go to state 52
+    FALSE           shift and go to state 53
+    ID              shift and go to state 54
+    (               shift and go to state 56
+    READ            shift and go to state 57
+    -               shift and go to state 58
+    NOT             shift and go to state 59
 
-    ExprList                       shift and go to state 85
-    empty                          shift and go to state 86
-    ExprList1                      shift and go to state 87
-    Expr                           shift and go to state 88
-    UnOp                           shift and go to state 46
+    Expr                           shift and go to state 69
+    UnOp                           shift and go to state 55
 
-state 56
-
-    (43) Expr -> Expr BinOp . Expr
-    (39) Expr -> . INT
-    (40) Expr -> . TRUE
-    (41) Expr -> . FALSE
-    (42) Expr -> . ID
-    (43) Expr -> . Expr BinOp Expr
-    (44) Expr -> . UnOp Expr
-    (45) Expr -> . ( Expr )
-    (46) Expr -> . ID ( ExprList )
-    (47) Expr -> . READ ( )
-    (62) UnOp -> . -
-    (63) UnOp -> . NOT
-
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    ID              shift and go to state 72
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
-
-    Expr                           shift and go to state 89
-    UnOp                           shift and go to state 46
-
-state 57
-
-    (48) BinOp -> + .
-
-    INT             reduce using rule 48 (BinOp -> + .)
-    TRUE            reduce using rule 48 (BinOp -> + .)
-    FALSE           reduce using rule 48 (BinOp -> + .)
-    ID              reduce using rule 48 (BinOp -> + .)
-    (               reduce using rule 48 (BinOp -> + .)
-    READ            reduce using rule 48 (BinOp -> + .)
-    -               reduce using rule 48 (BinOp -> + .)
-    NOT             reduce using rule 48 (BinOp -> + .)
-
-
-state 58
-
-    (49) BinOp -> - .
-
-    INT             reduce using rule 49 (BinOp -> - .)
-    TRUE            reduce using rule 49 (BinOp -> - .)
-    FALSE           reduce using rule 49 (BinOp -> - .)
-    ID              reduce using rule 49 (BinOp -> - .)
-    (               reduce using rule 49 (BinOp -> - .)
-    READ            reduce using rule 49 (BinOp -> - .)
-    -               reduce using rule 49 (BinOp -> - .)
-    NOT             reduce using rule 49 (BinOp -> - .)
-
-
-state 59
-
-    (50) BinOp -> * .
-
-    INT             reduce using rule 50 (BinOp -> * .)
-    TRUE            reduce using rule 50 (BinOp -> * .)
-    FALSE           reduce using rule 50 (BinOp -> * .)
-    ID              reduce using rule 50 (BinOp -> * .)
-    (               reduce using rule 50 (BinOp -> * .)
-    READ            reduce using rule 50 (BinOp -> * .)
-    -               reduce using rule 50 (BinOp -> * .)
-    NOT             reduce using rule 50 (BinOp -> * .)
-
-
-state 60
-
-    (51) BinOp -> DIVIDE .
-
-    INT             reduce using rule 51 (BinOp -> DIVIDE .)
-    TRUE            reduce using rule 51 (BinOp -> DIVIDE .)
-    FALSE           reduce using rule 51 (BinOp -> DIVIDE .)
-    ID              reduce using rule 51 (BinOp -> DIVIDE .)
-    (               reduce using rule 51 (BinOp -> DIVIDE .)
-    READ            reduce using rule 51 (BinOp -> DIVIDE .)
-    -               reduce using rule 51 (BinOp -> DIVIDE .)
-    NOT             reduce using rule 51 (BinOp -> DIVIDE .)
-
-
-state 61
-
-    (52) BinOp -> EXP .
-
-    INT             reduce using rule 52 (BinOp -> EXP .)
-    TRUE            reduce using rule 52 (BinOp -> EXP .)
-    FALSE           reduce using rule 52 (BinOp -> EXP .)
-    ID              reduce using rule 52 (BinOp -> EXP .)
-    (               reduce using rule 52 (BinOp -> EXP .)
-    READ            reduce using rule 52 (BinOp -> EXP .)
-    -               reduce using rule 52 (BinOp -> EXP .)
-    NOT             reduce using rule 52 (BinOp -> EXP .)
-
-
-state 62
-
-    (53) BinOp -> % .
-
-    INT             reduce using rule 53 (BinOp -> % .)
-    TRUE            reduce using rule 53 (BinOp -> % .)
-    FALSE           reduce using rule 53 (BinOp -> % .)
-    ID              reduce using rule 53 (BinOp -> % .)
-    (               reduce using rule 53 (BinOp -> % .)
-    READ            reduce using rule 53 (BinOp -> % .)
-    -               reduce using rule 53 (BinOp -> % .)
-    NOT             reduce using rule 53 (BinOp -> % .)
-
-
-state 63
-
-    (54) BinOp -> EQUAL .
-
-    INT             reduce using rule 54 (BinOp -> EQUAL .)
-    TRUE            reduce using rule 54 (BinOp -> EQUAL .)
-    FALSE           reduce using rule 54 (BinOp -> EQUAL .)
-    ID              reduce using rule 54 (BinOp -> EQUAL .)
-    (               reduce using rule 54 (BinOp -> EQUAL .)
-    READ            reduce using rule 54 (BinOp -> EQUAL .)
-    -               reduce using rule 54 (BinOp -> EQUAL .)
-    NOT             reduce using rule 54 (BinOp -> EQUAL .)
-
-
-state 64
-
-    (55) BinOp -> NOTEQUAL .
-
-    INT             reduce using rule 55 (BinOp -> NOTEQUAL .)
-    TRUE            reduce using rule 55 (BinOp -> NOTEQUAL .)
-    FALSE           reduce using rule 55 (BinOp -> NOTEQUAL .)
-    ID              reduce using rule 55 (BinOp -> NOTEQUAL .)
-    (               reduce using rule 55 (BinOp -> NOTEQUAL .)
-    READ            reduce using rule 55 (BinOp -> NOTEQUAL .)
-    -               reduce using rule 55 (BinOp -> NOTEQUAL .)
-    NOT             reduce using rule 55 (BinOp -> NOTEQUAL .)
-
-
-state 65
-
-    (56) BinOp -> < .
-
-    INT             reduce using rule 56 (BinOp -> < .)
-    TRUE            reduce using rule 56 (BinOp -> < .)
-    FALSE           reduce using rule 56 (BinOp -> < .)
-    ID              reduce using rule 56 (BinOp -> < .)
-    (               reduce using rule 56 (BinOp -> < .)
-    READ            reduce using rule 56 (BinOp -> < .)
-    -               reduce using rule 56 (BinOp -> < .)
-    NOT             reduce using rule 56 (BinOp -> < .)
-
-
-state 66
-
-    (57) BinOp -> > .
-
-    INT             reduce using rule 57 (BinOp -> > .)
-    TRUE            reduce using rule 57 (BinOp -> > .)
-    FALSE           reduce using rule 57 (BinOp -> > .)
-    ID              reduce using rule 57 (BinOp -> > .)
-    (               reduce using rule 57 (BinOp -> > .)
-    READ            reduce using rule 57 (BinOp -> > .)
-    -               reduce using rule 57 (BinOp -> > .)
-    NOT             reduce using rule 57 (BinOp -> > .)
-
-
-state 67
-
-    (58) BinOp -> LESSEQUAL .
-
-    INT             reduce using rule 58 (BinOp -> LESSEQUAL .)
-    TRUE            reduce using rule 58 (BinOp -> LESSEQUAL .)
-    FALSE           reduce using rule 58 (BinOp -> LESSEQUAL .)
-    ID              reduce using rule 58 (BinOp -> LESSEQUAL .)
-    (               reduce using rule 58 (BinOp -> LESSEQUAL .)
-    READ            reduce using rule 58 (BinOp -> LESSEQUAL .)
-    -               reduce using rule 58 (BinOp -> LESSEQUAL .)
-    NOT             reduce using rule 58 (BinOp -> LESSEQUAL .)
-
-
-state 68
-
-    (59) BinOp -> GREATEREQUAL .
-
-    INT             reduce using rule 59 (BinOp -> GREATEREQUAL .)
-    TRUE            reduce using rule 59 (BinOp -> GREATEREQUAL .)
-    FALSE           reduce using rule 59 (BinOp -> GREATEREQUAL .)
-    ID              reduce using rule 59 (BinOp -> GREATEREQUAL .)
-    (               reduce using rule 59 (BinOp -> GREATEREQUAL .)
-    READ            reduce using rule 59 (BinOp -> GREATEREQUAL .)
-    -               reduce using rule 59 (BinOp -> GREATEREQUAL .)
-    NOT             reduce using rule 59 (BinOp -> GREATEREQUAL .)
-
-
-state 69
-
-    (60) BinOp -> AND .
-
-    INT             reduce using rule 60 (BinOp -> AND .)
-    TRUE            reduce using rule 60 (BinOp -> AND .)
-    FALSE           reduce using rule 60 (BinOp -> AND .)
-    ID              reduce using rule 60 (BinOp -> AND .)
-    (               reduce using rule 60 (BinOp -> AND .)
-    READ            reduce using rule 60 (BinOp -> AND .)
-    -               reduce using rule 60 (BinOp -> AND .)
-    NOT             reduce using rule 60 (BinOp -> AND .)
-
-
-state 70
-
-    (61) BinOp -> OR .
-
-    INT             reduce using rule 61 (BinOp -> OR .)
-    TRUE            reduce using rule 61 (BinOp -> OR .)
-    FALSE           reduce using rule 61 (BinOp -> OR .)
-    ID              reduce using rule 61 (BinOp -> OR .)
-    (               reduce using rule 61 (BinOp -> OR .)
-    READ            reduce using rule 61 (BinOp -> OR .)
-    -               reduce using rule 61 (BinOp -> OR .)
-    NOT             reduce using rule 61 (BinOp -> OR .)
-
-
-state 71
+state 50
 
     (29) CmdIf -> IF Expr . : Cmd
     (30) CmdIf -> IF Expr . : Cmd ELSE :
@@ -1526,25 +938,109 @@ state 71
     (60) BinOp -> . AND
     (61) BinOp -> . OR
 
-    :               shift and go to state 90
-    +               shift and go to state 57
-    -               shift and go to state 58
-    *               shift and go to state 59
-    DIVIDE          shift and go to state 60
-    EXP             shift and go to state 61
-    %               shift and go to state 62
-    EQUAL           shift and go to state 63
-    NOTEQUAL        shift and go to state 64
-    <               shift and go to state 65
-    >               shift and go to state 66
-    LESSEQUAL       shift and go to state 67
-    GREATEREQUAL    shift and go to state 68
-    AND             shift and go to state 69
-    OR              shift and go to state 70
+    :               shift and go to state 70
+    +               shift and go to state 72
+    -               shift and go to state 73
+    *               shift and go to state 74
+    DIVIDE          shift and go to state 75
+    EXP             shift and go to state 76
+    %               shift and go to state 77
+    EQUAL           shift and go to state 78
+    NOTEQUAL        shift and go to state 79
+    <               shift and go to state 80
+    >               shift and go to state 81
+    LESSEQUAL       shift and go to state 82
+    GREATEREQUAL    shift and go to state 83
+    AND             shift and go to state 84
+    OR              shift and go to state 85
 
-    BinOp                          shift and go to state 56
+    BinOp                          shift and go to state 71
 
-state 72
+state 51
+
+    (39) Expr -> INT .
+
+    :               reduce using rule 39 (Expr -> INT .)
+    +               reduce using rule 39 (Expr -> INT .)
+    -               reduce using rule 39 (Expr -> INT .)
+    *               reduce using rule 39 (Expr -> INT .)
+    DIVIDE          reduce using rule 39 (Expr -> INT .)
+    EXP             reduce using rule 39 (Expr -> INT .)
+    %               reduce using rule 39 (Expr -> INT .)
+    EQUAL           reduce using rule 39 (Expr -> INT .)
+    NOTEQUAL        reduce using rule 39 (Expr -> INT .)
+    <               reduce using rule 39 (Expr -> INT .)
+    >               reduce using rule 39 (Expr -> INT .)
+    LESSEQUAL       reduce using rule 39 (Expr -> INT .)
+    GREATEREQUAL    reduce using rule 39 (Expr -> INT .)
+    AND             reduce using rule 39 (Expr -> INT .)
+    OR              reduce using rule 39 (Expr -> INT .)
+    $end            reduce using rule 39 (Expr -> INT .)
+    ;               reduce using rule 39 (Expr -> INT .)
+    }               reduce using rule 39 (Expr -> INT .)
+    ELSE            reduce using rule 39 (Expr -> INT .)
+    TO              reduce using rule 39 (Expr -> INT .)
+    )               reduce using rule 39 (Expr -> INT .)
+    ,               reduce using rule 39 (Expr -> INT .)
+
+
+state 52
+
+    (40) Expr -> TRUE .
+
+    :               reduce using rule 40 (Expr -> TRUE .)
+    +               reduce using rule 40 (Expr -> TRUE .)
+    -               reduce using rule 40 (Expr -> TRUE .)
+    *               reduce using rule 40 (Expr -> TRUE .)
+    DIVIDE          reduce using rule 40 (Expr -> TRUE .)
+    EXP             reduce using rule 40 (Expr -> TRUE .)
+    %               reduce using rule 40 (Expr -> TRUE .)
+    EQUAL           reduce using rule 40 (Expr -> TRUE .)
+    NOTEQUAL        reduce using rule 40 (Expr -> TRUE .)
+    <               reduce using rule 40 (Expr -> TRUE .)
+    >               reduce using rule 40 (Expr -> TRUE .)
+    LESSEQUAL       reduce using rule 40 (Expr -> TRUE .)
+    GREATEREQUAL    reduce using rule 40 (Expr -> TRUE .)
+    AND             reduce using rule 40 (Expr -> TRUE .)
+    OR              reduce using rule 40 (Expr -> TRUE .)
+    $end            reduce using rule 40 (Expr -> TRUE .)
+    ;               reduce using rule 40 (Expr -> TRUE .)
+    }               reduce using rule 40 (Expr -> TRUE .)
+    ELSE            reduce using rule 40 (Expr -> TRUE .)
+    TO              reduce using rule 40 (Expr -> TRUE .)
+    )               reduce using rule 40 (Expr -> TRUE .)
+    ,               reduce using rule 40 (Expr -> TRUE .)
+
+
+state 53
+
+    (41) Expr -> FALSE .
+
+    :               reduce using rule 41 (Expr -> FALSE .)
+    +               reduce using rule 41 (Expr -> FALSE .)
+    -               reduce using rule 41 (Expr -> FALSE .)
+    *               reduce using rule 41 (Expr -> FALSE .)
+    DIVIDE          reduce using rule 41 (Expr -> FALSE .)
+    EXP             reduce using rule 41 (Expr -> FALSE .)
+    %               reduce using rule 41 (Expr -> FALSE .)
+    EQUAL           reduce using rule 41 (Expr -> FALSE .)
+    NOTEQUAL        reduce using rule 41 (Expr -> FALSE .)
+    <               reduce using rule 41 (Expr -> FALSE .)
+    >               reduce using rule 41 (Expr -> FALSE .)
+    LESSEQUAL       reduce using rule 41 (Expr -> FALSE .)
+    GREATEREQUAL    reduce using rule 41 (Expr -> FALSE .)
+    AND             reduce using rule 41 (Expr -> FALSE .)
+    OR              reduce using rule 41 (Expr -> FALSE .)
+    $end            reduce using rule 41 (Expr -> FALSE .)
+    ;               reduce using rule 41 (Expr -> FALSE .)
+    }               reduce using rule 41 (Expr -> FALSE .)
+    ELSE            reduce using rule 41 (Expr -> FALSE .)
+    TO              reduce using rule 41 (Expr -> FALSE .)
+    )               reduce using rule 41 (Expr -> FALSE .)
+    ,               reduce using rule 41 (Expr -> FALSE .)
+
+
+state 54
 
     (42) Expr -> ID .
     (46) Expr -> ID . ( ExprList )
@@ -1564,19 +1060,108 @@ state 72
     GREATEREQUAL    reduce using rule 42 (Expr -> ID .)
     AND             reduce using rule 42 (Expr -> ID .)
     OR              reduce using rule 42 (Expr -> ID .)
-    )               reduce using rule 42 (Expr -> ID .)
     $end            reduce using rule 42 (Expr -> ID .)
     ;               reduce using rule 42 (Expr -> ID .)
     }               reduce using rule 42 (Expr -> ID .)
     ELSE            reduce using rule 42 (Expr -> ID .)
     TO              reduce using rule 42 (Expr -> ID .)
+    )               reduce using rule 42 (Expr -> ID .)
     ,               reduce using rule 42 (Expr -> ID .)
-    (               shift and go to state 55
+    (               shift and go to state 86
 
 
-state 73
+state 55
 
-    (31) CmdWhile -> WHILE Expr . : Cmd
+    (44) Expr -> UnOp . Expr
+    (39) Expr -> . INT
+    (40) Expr -> . TRUE
+    (41) Expr -> . FALSE
+    (42) Expr -> . ID
+    (43) Expr -> . Expr BinOp Expr
+    (44) Expr -> . UnOp Expr
+    (45) Expr -> . ( Expr )
+    (46) Expr -> . ID ( ExprList )
+    (47) Expr -> . READ ( )
+    (62) UnOp -> . -
+    (63) UnOp -> . NOT
+
+    INT             shift and go to state 51
+    TRUE            shift and go to state 52
+    FALSE           shift and go to state 53
+    ID              shift and go to state 54
+    (               shift and go to state 56
+    READ            shift and go to state 57
+    -               shift and go to state 58
+    NOT             shift and go to state 59
+
+    UnOp                           shift and go to state 55
+    Expr                           shift and go to state 87
+
+state 56
+
+    (45) Expr -> ( . Expr )
+    (39) Expr -> . INT
+    (40) Expr -> . TRUE
+    (41) Expr -> . FALSE
+    (42) Expr -> . ID
+    (43) Expr -> . Expr BinOp Expr
+    (44) Expr -> . UnOp Expr
+    (45) Expr -> . ( Expr )
+    (46) Expr -> . ID ( ExprList )
+    (47) Expr -> . READ ( )
+    (62) UnOp -> . -
+    (63) UnOp -> . NOT
+
+    INT             shift and go to state 51
+    TRUE            shift and go to state 52
+    FALSE           shift and go to state 53
+    ID              shift and go to state 54
+    (               shift and go to state 56
+    READ            shift and go to state 57
+    -               shift and go to state 58
+    NOT             shift and go to state 59
+
+    Expr                           shift and go to state 88
+    UnOp                           shift and go to state 55
+
+state 57
+
+    (47) Expr -> READ . ( )
+
+    (               shift and go to state 89
+
+
+state 58
+
+    (62) UnOp -> - .
+
+    INT             reduce using rule 62 (UnOp -> - .)
+    TRUE            reduce using rule 62 (UnOp -> - .)
+    FALSE           reduce using rule 62 (UnOp -> - .)
+    ID              reduce using rule 62 (UnOp -> - .)
+    (               reduce using rule 62 (UnOp -> - .)
+    READ            reduce using rule 62 (UnOp -> - .)
+    -               reduce using rule 62 (UnOp -> - .)
+    NOT             reduce using rule 62 (UnOp -> - .)
+
+
+state 59
+
+    (63) UnOp -> NOT .
+
+    INT             reduce using rule 63 (UnOp -> NOT .)
+    TRUE            reduce using rule 63 (UnOp -> NOT .)
+    FALSE           reduce using rule 63 (UnOp -> NOT .)
+    ID              reduce using rule 63 (UnOp -> NOT .)
+    (               reduce using rule 63 (UnOp -> NOT .)
+    READ            reduce using rule 63 (UnOp -> NOT .)
+    -               reduce using rule 63 (UnOp -> NOT .)
+    NOT             reduce using rule 63 (UnOp -> NOT .)
+
+
+state 60
+
+    (31) CmdWhile -> WHILE Expr . : Cmds
     (43) Expr -> Expr . BinOp Expr
     (48) BinOp -> . +
     (49) BinOp -> . -
@@ -1593,32 +1178,32 @@ state 73
     (60) BinOp -> . AND
     (61) BinOp -> . OR
 
-    :               shift and go to state 91
-    +               shift and go to state 57
-    -               shift and go to state 58
-    *               shift and go to state 59
-    DIVIDE          shift and go to state 60
-    EXP             shift and go to state 61
-    %               shift and go to state 62
-    EQUAL           shift and go to state 63
-    NOTEQUAL        shift and go to state 64
-    <               shift and go to state 65
-    >               shift and go to state 66
-    LESSEQUAL       shift and go to state 67
-    GREATEREQUAL    shift and go to state 68
-    AND             shift and go to state 69
-    OR              shift and go to state 70
+    :               shift and go to state 90
+    +               shift and go to state 72
+    -               shift and go to state 73
+    *               shift and go to state 74
+    DIVIDE          shift and go to state 75
+    EXP             shift and go to state 76
+    %               shift and go to state 77
+    EQUAL           shift and go to state 78
+    NOTEQUAL        shift and go to state 79
+    <               shift and go to state 80
+    >               shift and go to state 81
+    LESSEQUAL       shift and go to state 82
+    GREATEREQUAL    shift and go to state 83
+    AND             shift and go to state 84
+    OR              shift and go to state 85
 
-    BinOp                          shift and go to state 56
+    BinOp                          shift and go to state 71
 
-state 74
+state 61
 
     (32) CmdFor -> FOR CmdAtrib . TO Expr : Cmd
 
-    TO              shift and go to state 92
+    TO              shift and go to state 91
 
 
-state 75
+state 62
 
     (34) CmdPrint -> PRINT ( . ExprList )
     (64) ExprList -> . empty
@@ -1639,59 +1224,22 @@ state 75
     (63) UnOp -> . NOT
 
     )               reduce using rule 73 (empty -> .)
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    ID              shift and go to state 72
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
-
-    ExprList                       shift and go to state 93
-    empty                          shift and go to state 86
-    ExprList1                      shift and go to state 87
-    Expr                           shift and go to state 88
-    UnOp                           shift and go to state 46
-
-state 76
-
-    (45) Expr -> ( Expr . )
-    (43) Expr -> Expr . BinOp Expr
-    (48) BinOp -> . +
-    (49) BinOp -> . -
-    (50) BinOp -> . *
-    (51) BinOp -> . DIVIDE
-    (52) BinOp -> . EXP
-    (53) BinOp -> . %
-    (54) BinOp -> . EQUAL
-    (55) BinOp -> . NOTEQUAL
-    (56) BinOp -> . <
-    (57) BinOp -> . >
-    (58) BinOp -> . LESSEQUAL
-    (59) BinOp -> . GREATEREQUAL
-    (60) BinOp -> . AND
-    (61) BinOp -> . OR
-
-    )               shift and go to state 94
-    +               shift and go to state 57
+    INT             shift and go to state 51
+    TRUE            shift and go to state 52
+    FALSE           shift and go to state 53
+    ID              shift and go to state 54
+    (               shift and go to state 56
+    READ            shift and go to state 57
     -               shift and go to state 58
-    *               shift and go to state 59
-    DIVIDE          shift and go to state 60
-    EXP             shift and go to state 61
-    %               shift and go to state 62
-    EQUAL           shift and go to state 63
-    NOTEQUAL        shift and go to state 64
-    <               shift and go to state 65
-    >               shift and go to state 66
-    LESSEQUAL       shift and go to state 67
-    GREATEREQUAL    shift and go to state 68
-    AND             shift and go to state 69
-    OR              shift and go to state 70
+    NOT             shift and go to state 59
 
-    BinOp                          shift and go to state 56
+    ExprList                       shift and go to state 92
+    empty                          shift and go to state 93
+    ExprList1                      shift and go to state 94
+    Expr                           shift and go to state 95
+    UnOp                           shift and go to state 55
 
-state 77
+state 63
 
     (35) CmdReturn -> RETURN Expr .
     (43) Expr -> Expr . BinOp Expr
@@ -1714,31 +1262,465 @@ state 77
     ;               reduce using rule 35 (CmdReturn -> RETURN Expr .)
     }               reduce using rule 35 (CmdReturn -> RETURN Expr .)
     ELSE            reduce using rule 35 (CmdReturn -> RETURN Expr .)
-    +               shift and go to state 57
-    -               shift and go to state 58
-    *               shift and go to state 59
-    DIVIDE          shift and go to state 60
-    EXP             shift and go to state 61
-    %               shift and go to state 62
-    EQUAL           shift and go to state 63
-    NOTEQUAL        shift and go to state 64
-    <               shift and go to state 65
-    >               shift and go to state 66
-    LESSEQUAL       shift and go to state 67
-    GREATEREQUAL    shift and go to state 68
-    AND             shift and go to state 69
-    OR              shift and go to state 70
+    +               shift and go to state 72
+    -               shift and go to state 73
+    *               shift and go to state 74
+    DIVIDE          shift and go to state 75
+    EXP             shift and go to state 76
+    %               shift and go to state 77
+    EQUAL           shift and go to state 78
+    NOTEQUAL        shift and go to state 79
+    <               shift and go to state 80
+    >               shift and go to state 81
+    LESSEQUAL       shift and go to state 82
+    GREATEREQUAL    shift and go to state 83
+    AND             shift and go to state 84
+    OR              shift and go to state 85
 
-    BinOp                          shift and go to state 56
+    BinOp                          shift and go to state 71
+
+state 64
+
+    (70) VarDecl -> VAR ID : . Type ;
+    (71) Type -> . INTEGER
+    (72) Type -> . BOOL
+
+    INTEGER         shift and go to state 97
+    BOOL            shift and go to state 98
+
+    Type                           shift and go to state 96
+
+state 65
+
+    (8) FunctionHeader -> FunctionType FUNCTION ID ( . ParamList ) :
+    (13) ParamList -> . empty
+    (14) ParamList -> . ParamList1
+    (73) empty -> .
+    (15) ParamList1 -> . Param , ParamList1
+    (16) ParamList1 -> . Param
+    (17) Param -> . ID : Type
+
+    )               reduce using rule 73 (empty -> .)
+    ID              shift and go to state 99
+
+    ParamList                      shift and go to state 100
+    empty                          shift and go to state 101
+    ParamList1                     shift and go to state 102
+    Param                          shift and go to state 103
+
+state 66
+
+    (12) FunctionBody -> { VarDecls CmdList } .
+
+    {               reduce using rule 12 (FunctionBody -> { VarDecls CmdList } .)
+    INTEGER         reduce using rule 12 (FunctionBody -> { VarDecls CmdList } .)
+    BOOL            reduce using rule 12 (FunctionBody -> { VarDecls CmdList } .)
+    VOID            reduce using rule 12 (FunctionBody -> { VarDecls CmdList } .)
+    VAR             reduce using rule 12 (FunctionBody -> { VarDecls CmdList } .)
+    ID              reduce using rule 12 (FunctionBody -> { VarDecls CmdList } .)
+    IF              reduce using rule 12 (FunctionBody -> { VarDecls CmdList } .)
+    WHILE           reduce using rule 12 (FunctionBody -> { VarDecls CmdList } .)
+    FOR             reduce using rule 12 (FunctionBody -> { VarDecls CmdList } .)
+    BREAK           reduce using rule 12 (FunctionBody -> { VarDecls CmdList } .)
+    PRINT           reduce using rule 12 (FunctionBody -> { VarDecls CmdList } .)
+    RETURN          reduce using rule 12 (FunctionBody -> { VarDecls CmdList } .)
+
+
+state 67
+
+    (37) CmdList -> Cmd ; . CmdList
+    (37) CmdList -> . Cmd ; CmdList
+    (38) CmdList -> . Cmd
+    (20) Cmd -> . CmdAtrib
+    (21) Cmd -> . CmdIf
+    (22) Cmd -> . CmdWhile
+    (23) Cmd -> . CmdFor
+    (24) Cmd -> . CmdBreak
+    (25) Cmd -> . CmdPrint
+    (26) Cmd -> . CmdReturn
+    (27) Cmd -> . CmdSeq
+    (28) CmdAtrib -> . ID = Expr
+    (29) CmdIf -> . IF Expr : Cmd
+    (30) CmdIf -> . IF Expr : Cmd ELSE :
+    (31) CmdWhile -> . WHILE Expr : Cmds
+    (32) CmdFor -> . FOR CmdAtrib TO Expr : Cmd
+    (33) CmdBreak -> . BREAK
+    (34) CmdPrint -> . PRINT ( ExprList )
+    (35) CmdReturn -> . RETURN Expr
+    (36) CmdSeq -> . { CmdList }
+
+    ID              shift and go to state 35
+    IF              shift and go to state 36
+    WHILE           shift and go to state 37
+    FOR             shift and go to state 38
+    BREAK           shift and go to state 39
+    PRINT           shift and go to state 40
+    RETURN          shift and go to state 41
+    {               shift and go to state 27
+
+    Cmd                            shift and go to state 46
+    CmdList                        shift and go to state 104
+    CmdAtrib                       shift and go to state 28
+    CmdIf                          shift and go to state 29
+    CmdWhile                       shift and go to state 30
+    CmdFor                         shift and go to state 31
+    CmdBreak                       shift and go to state 32
+    CmdPrint                       shift and go to state 33
+    CmdReturn                      shift and go to state 34
+    CmdSeq                         shift and go to state 47
+
+state 68
+
+    (36) CmdSeq -> { CmdList } .
+
+    $end            reduce using rule 36 (CmdSeq -> { CmdList } .)
+    ;               reduce using rule 36 (CmdSeq -> { CmdList } .)
+    }               reduce using rule 36 (CmdSeq -> { CmdList } .)
+    ELSE            reduce using rule 36 (CmdSeq -> { CmdList } .)
+
+
+state 69
+
+    (28) CmdAtrib -> ID = Expr .
+    (43) Expr -> Expr . BinOp Expr
+    (48) BinOp -> . +
+    (49) BinOp -> . -
+    (50) BinOp -> . *
+    (51) BinOp -> . DIVIDE
+    (52) BinOp -> . EXP
+    (53) BinOp -> . %
+    (54) BinOp -> . EQUAL
+    (55) BinOp -> . NOTEQUAL
+    (56) BinOp -> . <
+    (57) BinOp -> . >
+    (58) BinOp -> . LESSEQUAL
+    (59) BinOp -> . GREATEREQUAL
+    (60) BinOp -> . AND
+    (61) BinOp -> . OR
+
+    $end            reduce using rule 28 (CmdAtrib -> ID = Expr .)
+    ;               reduce using rule 28 (CmdAtrib -> ID = Expr .)
+    }               reduce using rule 28 (CmdAtrib -> ID = Expr .)
+    TO              reduce using rule 28 (CmdAtrib -> ID = Expr .)
+    ELSE            reduce using rule 28 (CmdAtrib -> ID = Expr .)
+    +               shift and go to state 72
+    -               shift and go to state 73
+    *               shift and go to state 74
+    DIVIDE          shift and go to state 75
+    EXP             shift and go to state 76
+    %               shift and go to state 77
+    EQUAL           shift and go to state 78
+    NOTEQUAL        shift and go to state 79
+    <               shift and go to state 80
+    >               shift and go to state 81
+    LESSEQUAL       shift and go to state 82
+    GREATEREQUAL    shift and go to state 83
+    AND             shift and go to state 84
+    OR              shift and go to state 85
+
+    BinOp                          shift and go to state 71
+
+state 70
+
+    (29) CmdIf -> IF Expr : . Cmd
+    (30) CmdIf -> IF Expr : . Cmd ELSE :
+    (20) Cmd -> . CmdAtrib
+    (21) Cmd -> . CmdIf
+    (22) Cmd -> . CmdWhile
+    (23) Cmd -> . CmdFor
+    (24) Cmd -> . CmdBreak
+    (25) Cmd -> . CmdPrint
+    (26) Cmd -> . CmdReturn
+    (27) Cmd -> . CmdSeq
+    (28) CmdAtrib -> . ID = Expr
+    (29) CmdIf -> . IF Expr : Cmd
+    (30) CmdIf -> . IF Expr : Cmd ELSE :
+    (31) CmdWhile -> . WHILE Expr : Cmds
+    (32) CmdFor -> . FOR CmdAtrib TO Expr : Cmd
+    (33) CmdBreak -> . BREAK
+    (34) CmdPrint -> . PRINT ( ExprList )
+    (35) CmdReturn -> . RETURN Expr
+    (36) CmdSeq -> . { CmdList }
+
+    ID              shift and go to state 35
+    IF              shift and go to state 36
+    WHILE           shift and go to state 37
+    FOR             shift and go to state 38
+    BREAK           shift and go to state 39
+    PRINT           shift and go to state 40
+    RETURN          shift and go to state 41
+    {               shift and go to state 27
+
+    Cmd                            shift and go to state 105
+    CmdAtrib                       shift and go to state 28
+    CmdIf                          shift and go to state 29
+    CmdWhile                       shift and go to state 30
+    CmdFor                         shift and go to state 31
+    CmdBreak                       shift and go to state 32
+    CmdPrint                       shift and go to state 33
+    CmdReturn                      shift and go to state 34
+    CmdSeq                         shift and go to state 47
+
+state 71
+
+    (43) Expr -> Expr BinOp . Expr
+    (39) Expr -> . INT
+    (40) Expr -> . TRUE
+    (41) Expr -> . FALSE
+    (42) Expr -> . ID
+    (43) Expr -> . Expr BinOp Expr
+    (44) Expr -> . UnOp Expr
+    (45) Expr -> . ( Expr )
+    (46) Expr -> . ID ( ExprList )
+    (47) Expr -> . READ ( )
+    (62) UnOp -> . -
+    (63) UnOp -> . NOT
+
+    INT             shift and go to state 51
+    TRUE            shift and go to state 52
+    FALSE           shift and go to state 53
+    ID              shift and go to state 54
+    (               shift and go to state 56
+    READ            shift and go to state 57
+    -               shift and go to state 58
+    NOT             shift and go to state 59
+
+    Expr                           shift and go to state 106
+    UnOp                           shift and go to state 55
+
+state 72
+
+    (48) BinOp -> + .
+
+    INT             reduce using rule 48 (BinOp -> + .)
+    TRUE            reduce using rule 48 (BinOp -> + .)
+    FALSE           reduce using rule 48 (BinOp -> + .)
+    ID              reduce using rule 48 (BinOp -> + .)
+    (               reduce using rule 48 (BinOp -> + .)
+    READ            reduce using rule 48 (BinOp -> + .)
+    -               reduce using rule 48 (BinOp -> + .)
+    NOT             reduce using rule 48 (BinOp -> + .)
+
+
+state 73
+
+    (49) BinOp -> - .
+
+    INT             reduce using rule 49 (BinOp -> - .)
+    TRUE            reduce using rule 49 (BinOp -> - .)
+    FALSE           reduce using rule 49 (BinOp -> - .)
+    ID              reduce using rule 49 (BinOp -> - .)
+    (               reduce using rule 49 (BinOp -> - .)
+    READ            reduce using rule 49 (BinOp -> - .)
+    -               reduce using rule 49 (BinOp -> - .)
+    NOT             reduce using rule 49 (BinOp -> - .)
+
+
+state 74
+
+    (50) BinOp -> * .
+
+    INT             reduce using rule 50 (BinOp -> * .)
+    TRUE            reduce using rule 50 (BinOp -> * .)
+    FALSE           reduce using rule 50 (BinOp -> * .)
+    ID              reduce using rule 50 (BinOp -> * .)
+    (               reduce using rule 50 (BinOp -> * .)
+    READ            reduce using rule 50 (BinOp -> * .)
+    -               reduce using rule 50 (BinOp -> * .)
+    NOT             reduce using rule 50 (BinOp -> * .)
+
+
+state 75
+
+    (51) BinOp -> DIVIDE .
+
+    INT             reduce using rule 51 (BinOp -> DIVIDE .)
+    TRUE            reduce using rule 51 (BinOp -> DIVIDE .)
+    FALSE           reduce using rule 51 (BinOp -> DIVIDE .)
+    ID              reduce using rule 51 (BinOp -> DIVIDE .)
+    (               reduce using rule 51 (BinOp -> DIVIDE .)
+    READ            reduce using rule 51 (BinOp -> DIVIDE .)
+    -               reduce using rule 51 (BinOp -> DIVIDE .)
+    NOT             reduce using rule 51 (BinOp -> DIVIDE .)
+
+
+state 76
+
+    (52) BinOp -> EXP .
+
+    INT             reduce using rule 52 (BinOp -> EXP .)
+    TRUE            reduce using rule 52 (BinOp -> EXP .)
+    FALSE           reduce using rule 52 (BinOp -> EXP .)
+    ID              reduce using rule 52 (BinOp -> EXP .)
+    (               reduce using rule 52 (BinOp -> EXP .)
+    READ            reduce using rule 52 (BinOp -> EXP .)
+    -               reduce using rule 52 (BinOp -> EXP .)
+    NOT             reduce using rule 52 (BinOp -> EXP .)
+
+
+state 77
+
+    (53) BinOp -> % .
+
+    INT             reduce using rule 53 (BinOp -> % .)
+    TRUE            reduce using rule 53 (BinOp -> % .)
+    FALSE           reduce using rule 53 (BinOp -> % .)
+    ID              reduce using rule 53 (BinOp -> % .)
+    (               reduce using rule 53 (BinOp -> % .)
+    READ            reduce using rule 53 (BinOp -> % .)
+    -               reduce using rule 53 (BinOp -> % .)
+    NOT             reduce using rule 53 (BinOp -> % .)
+
 
 state 78
 
-    (36) CmdSeq -> { CmdList . }
+    (54) BinOp -> EQUAL .
 
-    }               shift and go to state 95
+    INT             reduce using rule 54 (BinOp -> EQUAL .)
+    TRUE            reduce using rule 54 (BinOp -> EQUAL .)
+    FALSE           reduce using rule 54 (BinOp -> EQUAL .)
+    ID              reduce using rule 54 (BinOp -> EQUAL .)
+    (               reduce using rule 54 (BinOp -> EQUAL .)
+    READ            reduce using rule 54 (BinOp -> EQUAL .)
+    -               reduce using rule 54 (BinOp -> EQUAL .)
+    NOT             reduce using rule 54 (BinOp -> EQUAL .)
 
 
 state 79
+
+    (55) BinOp -> NOTEQUAL .
+
+    INT             reduce using rule 55 (BinOp -> NOTEQUAL .)
+    TRUE            reduce using rule 55 (BinOp -> NOTEQUAL .)
+    FALSE           reduce using rule 55 (BinOp -> NOTEQUAL .)
+    ID              reduce using rule 55 (BinOp -> NOTEQUAL .)
+    (               reduce using rule 55 (BinOp -> NOTEQUAL .)
+    READ            reduce using rule 55 (BinOp -> NOTEQUAL .)
+    -               reduce using rule 55 (BinOp -> NOTEQUAL .)
+    NOT             reduce using rule 55 (BinOp -> NOTEQUAL .)
+
+
+state 80
+
+    (56) BinOp -> < .
+
+    INT             reduce using rule 56 (BinOp -> < .)
+    TRUE            reduce using rule 56 (BinOp -> < .)
+    FALSE           reduce using rule 56 (BinOp -> < .)
+    ID              reduce using rule 56 (BinOp -> < .)
+    (               reduce using rule 56 (BinOp -> < .)
+    READ            reduce using rule 56 (BinOp -> < .)
+    -               reduce using rule 56 (BinOp -> < .)
+    NOT             reduce using rule 56 (BinOp -> < .)
+
+
+state 81
+
+    (57) BinOp -> > .
+
+    INT             reduce using rule 57 (BinOp -> > .)
+    TRUE            reduce using rule 57 (BinOp -> > .)
+    FALSE           reduce using rule 57 (BinOp -> > .)
+    ID              reduce using rule 57 (BinOp -> > .)
+    (               reduce using rule 57 (BinOp -> > .)
+    READ            reduce using rule 57 (BinOp -> > .)
+    -               reduce using rule 57 (BinOp -> > .)
+    NOT             reduce using rule 57 (BinOp -> > .)
+
+
+state 82
+
+    (58) BinOp -> LESSEQUAL .
+
+    INT             reduce using rule 58 (BinOp -> LESSEQUAL .)
+    TRUE            reduce using rule 58 (BinOp -> LESSEQUAL .)
+    FALSE           reduce using rule 58 (BinOp -> LESSEQUAL .)
+    ID              reduce using rule 58 (BinOp -> LESSEQUAL .)
+    (               reduce using rule 58 (BinOp -> LESSEQUAL .)
+    READ            reduce using rule 58 (BinOp -> LESSEQUAL .)
+    -               reduce using rule 58 (BinOp -> LESSEQUAL .)
+    NOT             reduce using rule 58 (BinOp -> LESSEQUAL .)
+
+
+state 83
+
+    (59) BinOp -> GREATEREQUAL .
+
+    INT             reduce using rule 59 (BinOp -> GREATEREQUAL .)
+    TRUE            reduce using rule 59 (BinOp -> GREATEREQUAL .)
+    FALSE           reduce using rule 59 (BinOp -> GREATEREQUAL .)
+    ID              reduce using rule 59 (BinOp -> GREATEREQUAL .)
+    (               reduce using rule 59 (BinOp -> GREATEREQUAL .)
+    READ            reduce using rule 59 (BinOp -> GREATEREQUAL .)
+    -               reduce using rule 59 (BinOp -> GREATEREQUAL .)
+    NOT             reduce using rule 59 (BinOp -> GREATEREQUAL .)
+
+
+state 84
+
+    (60) BinOp -> AND .
+
+    INT             reduce using rule 60 (BinOp -> AND .)
+    TRUE            reduce using rule 60 (BinOp -> AND .)
+    FALSE           reduce using rule 60 (BinOp -> AND .)
+    ID              reduce using rule 60 (BinOp -> AND .)
+    (               reduce using rule 60 (BinOp -> AND .)
+    READ            reduce using rule 60 (BinOp -> AND .)
+    -               reduce using rule 60 (BinOp -> AND .)
+    NOT             reduce using rule 60 (BinOp -> AND .)
+
+
+state 85
+
+    (61) BinOp -> OR .
+
+    INT             reduce using rule 61 (BinOp -> OR .)
+    TRUE            reduce using rule 61 (BinOp -> OR .)
+    FALSE           reduce using rule 61 (BinOp -> OR .)
+    ID              reduce using rule 61 (BinOp -> OR .)
+    (               reduce using rule 61 (BinOp -> OR .)
+    READ            reduce using rule 61 (BinOp -> OR .)
+    -               reduce using rule 61 (BinOp -> OR .)
+    NOT             reduce using rule 61 (BinOp -> OR .)
+
+
+state 86
+
+    (46) Expr -> ID ( . ExprList )
+    (64) ExprList -> . empty
+    (65) ExprList -> . ExprList1
+    (73) empty -> .
+    (66) ExprList1 -> . Expr
+    (67) ExprList1 -> . Expr , ExprList1
+    (39) Expr -> . INT
+    (40) Expr -> . TRUE
+    (41) Expr -> . FALSE
+    (42) Expr -> . ID
+    (43) Expr -> . Expr BinOp Expr
+    (44) Expr -> . UnOp Expr
+    (45) Expr -> . ( Expr )
+    (46) Expr -> . ID ( ExprList )
+    (47) Expr -> . READ ( )
+    (62) UnOp -> . -
+    (63) UnOp -> . NOT
+
+    )               reduce using rule 73 (empty -> .)
+    INT             shift and go to state 51
+    TRUE            shift and go to state 52
+    FALSE           shift and go to state 53
+    ID              shift and go to state 54
+    (               shift and go to state 56
+    READ            shift and go to state 57
+    -               shift and go to state 58
+    NOT             shift and go to state 59
+
+    ExprList                       shift and go to state 107
+    empty                          shift and go to state 93
+    ExprList1                      shift and go to state 94
+    Expr                           shift and go to state 95
+    UnOp                           shift and go to state 55
+
+state 87
 
     (44) Expr -> UnOp Expr .
     (43) Expr -> Expr . BinOp Expr
@@ -1757,144 +1739,136 @@ state 79
     (60) BinOp -> . AND
     (61) BinOp -> . OR
 
-  ! shift/reduce conflict for + resolved as shift
-  ! shift/reduce conflict for - resolved as shift
-  ! shift/reduce conflict for * resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
-  ! shift/reduce conflict for EXP resolved as shift
-  ! shift/reduce conflict for % resolved as shift
-  ! shift/reduce conflict for EQUAL resolved as shift
-  ! shift/reduce conflict for NOTEQUAL resolved as shift
-  ! shift/reduce conflict for < resolved as shift
-  ! shift/reduce conflict for > resolved as shift
-  ! shift/reduce conflict for LESSEQUAL resolved as shift
-  ! shift/reduce conflict for GREATEREQUAL resolved as shift
-  ! shift/reduce conflict for AND resolved as shift
-  ! shift/reduce conflict for OR resolved as shift
+    :               reduce using rule 44 (Expr -> UnOp Expr .)
+    +               reduce using rule 44 (Expr -> UnOp Expr .)
+    -               reduce using rule 44 (Expr -> UnOp Expr .)
+    *               reduce using rule 44 (Expr -> UnOp Expr .)
+    DIVIDE          reduce using rule 44 (Expr -> UnOp Expr .)
+    EXP             reduce using rule 44 (Expr -> UnOp Expr .)
+    %               reduce using rule 44 (Expr -> UnOp Expr .)
+    EQUAL           reduce using rule 44 (Expr -> UnOp Expr .)
+    NOTEQUAL        reduce using rule 44 (Expr -> UnOp Expr .)
+    <               reduce using rule 44 (Expr -> UnOp Expr .)
+    >               reduce using rule 44 (Expr -> UnOp Expr .)
+    LESSEQUAL       reduce using rule 44 (Expr -> UnOp Expr .)
+    GREATEREQUAL    reduce using rule 44 (Expr -> UnOp Expr .)
+    AND             reduce using rule 44 (Expr -> UnOp Expr .)
+    OR              reduce using rule 44 (Expr -> UnOp Expr .)
     $end            reduce using rule 44 (Expr -> UnOp Expr .)
     ;               reduce using rule 44 (Expr -> UnOp Expr .)
     }               reduce using rule 44 (Expr -> UnOp Expr .)
-    :               reduce using rule 44 (Expr -> UnOp Expr .)
+    ELSE            reduce using rule 44 (Expr -> UnOp Expr .)
     TO              reduce using rule 44 (Expr -> UnOp Expr .)
     )               reduce using rule 44 (Expr -> UnOp Expr .)
-    ELSE            reduce using rule 44 (Expr -> UnOp Expr .)
     ,               reduce using rule 44 (Expr -> UnOp Expr .)
-    +               shift and go to state 57
-    -               shift and go to state 58
-    *               shift and go to state 59
-    DIVIDE          shift and go to state 60
-    EXP             shift and go to state 61
-    %               shift and go to state 62
-    EQUAL           shift and go to state 63
-    NOTEQUAL        shift and go to state 64
-    <               shift and go to state 65
-    >               shift and go to state 66
-    LESSEQUAL       shift and go to state 67
-    GREATEREQUAL    shift and go to state 68
-    AND             shift and go to state 69
-    OR              shift and go to state 70
 
-  ! +               [ reduce using rule 44 (Expr -> UnOp Expr .) ]
-  ! -               [ reduce using rule 44 (Expr -> UnOp Expr .) ]
-  ! *               [ reduce using rule 44 (Expr -> UnOp Expr .) ]
-  ! DIVIDE          [ reduce using rule 44 (Expr -> UnOp Expr .) ]
-  ! EXP             [ reduce using rule 44 (Expr -> UnOp Expr .) ]
-  ! %               [ reduce using rule 44 (Expr -> UnOp Expr .) ]
-  ! EQUAL           [ reduce using rule 44 (Expr -> UnOp Expr .) ]
-  ! NOTEQUAL        [ reduce using rule 44 (Expr -> UnOp Expr .) ]
-  ! <               [ reduce using rule 44 (Expr -> UnOp Expr .) ]
-  ! >               [ reduce using rule 44 (Expr -> UnOp Expr .) ]
-  ! LESSEQUAL       [ reduce using rule 44 (Expr -> UnOp Expr .) ]
-  ! GREATEREQUAL    [ reduce using rule 44 (Expr -> UnOp Expr .) ]
-  ! AND             [ reduce using rule 44 (Expr -> UnOp Expr .) ]
-  ! OR              [ reduce using rule 44 (Expr -> UnOp Expr .) ]
+  ! +               [ shift and go to state 72 ]
+  ! -               [ shift and go to state 73 ]
+  ! *               [ shift and go to state 74 ]
+  ! DIVIDE          [ shift and go to state 75 ]
+  ! EXP             [ shift and go to state 76 ]
+  ! %               [ shift and go to state 77 ]
+  ! EQUAL           [ shift and go to state 78 ]
+  ! NOTEQUAL        [ shift and go to state 79 ]
+  ! <               [ shift and go to state 80 ]
+  ! >               [ shift and go to state 81 ]
+  ! LESSEQUAL       [ shift and go to state 82 ]
+  ! GREATEREQUAL    [ shift and go to state 83 ]
+  ! AND             [ shift and go to state 84 ]
+  ! OR              [ shift and go to state 85 ]
 
-    BinOp                          shift and go to state 56
+    BinOp                          shift and go to state 71
 
-state 80
+state 88
+
+    (45) Expr -> ( Expr . )
+    (43) Expr -> Expr . BinOp Expr
+    (48) BinOp -> . +
+    (49) BinOp -> . -
+    (50) BinOp -> . *
+    (51) BinOp -> . DIVIDE
+    (52) BinOp -> . EXP
+    (53) BinOp -> . %
+    (54) BinOp -> . EQUAL
+    (55) BinOp -> . NOTEQUAL
+    (56) BinOp -> . <
+    (57) BinOp -> . >
+    (58) BinOp -> . LESSEQUAL
+    (59) BinOp -> . GREATEREQUAL
+    (60) BinOp -> . AND
+    (61) BinOp -> . OR
+
+    )               shift and go to state 108
+    +               shift and go to state 72
+    -               shift and go to state 73
+    *               shift and go to state 74
+    DIVIDE          shift and go to state 75
+    EXP             shift and go to state 76
+    %               shift and go to state 77
+    EQUAL           shift and go to state 78
+    NOTEQUAL        shift and go to state 79
+    <               shift and go to state 80
+    >               shift and go to state 81
+    LESSEQUAL       shift and go to state 82
+    GREATEREQUAL    shift and go to state 83
+    AND             shift and go to state 84
+    OR              shift and go to state 85
+
+    BinOp                          shift and go to state 71
+
+state 89
 
     (47) Expr -> READ ( . )
 
-    )               shift and go to state 96
+    )               shift and go to state 109
 
 
-state 81
+state 90
 
-    (70) VarDecl -> VAR ID : . Type ;
-    (71) Type -> . INTEGER
-    (72) Type -> . BOOL
-
-    INTEGER         shift and go to state 98
-    BOOL            shift and go to state 99
-
-    Type                           shift and go to state 97
-
-state 82
-
-    (9) FunctionHeader -> FunctionType FUNCTION ID ( . ParamList ) :
-    (14) ParamList -> . empty
-    (15) ParamList -> . ParamList1
-    (73) empty -> .
-    (16) ParamList1 -> . Param , ParamList1
-    (17) ParamList1 -> . Param
-    (18) Param -> . ID : Type
-
-    )               reduce using rule 73 (empty -> .)
-    ID              shift and go to state 100
-
-    ParamList                      shift and go to state 101
-    empty                          shift and go to state 102
-    ParamList1                     shift and go to state 103
-    Param                          shift and go to state 104
-
-state 83
-
-    (13) FunctionBody -> { VarDecls CmdList } .
-
-    {               reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    INTEGER         reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    BOOL            reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    VOID            reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    VAR             reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    ID              reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    IF              reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    WHILE           reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    FOR             reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    BREAK           reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    PRINT           reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    RETURN          reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    INT             reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    TRUE            reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    FALSE           reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    (               reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    READ            reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    -               reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-    NOT             reduce using rule 13 (FunctionBody -> { VarDecls CmdList } .)
-
-
-state 84
-
-    (37) CmdList -> Cmd ; . CmdList
-    (37) CmdList -> . Cmd ; CmdList
-    (38) CmdList -> . Cmd
-    (19) Cmd -> . CmdAtrib
-    (20) Cmd -> . CmdIf
-    (21) Cmd -> . CmdWhile
-    (22) Cmd -> . CmdFor
-    (23) Cmd -> . CmdBreak
-    (24) Cmd -> . CmdPrint
-    (25) Cmd -> . CmdReturn
-    (26) Cmd -> . CmdSeq
-    (27) CmdAtrib -> . ID
-    (28) CmdAtrib -> . Expr
+    (31) CmdWhile -> WHILE Expr : . Cmds
+    (18) Cmds -> . CmdSeq
+    (19) Cmds -> . Cmd
+    (36) CmdSeq -> . { CmdList }
+    (20) Cmd -> . CmdAtrib
+    (21) Cmd -> . CmdIf
+    (22) Cmd -> . CmdWhile
+    (23) Cmd -> . CmdFor
+    (24) Cmd -> . CmdBreak
+    (25) Cmd -> . CmdPrint
+    (26) Cmd -> . CmdReturn
+    (27) Cmd -> . CmdSeq
+    (28) CmdAtrib -> . ID = Expr
     (29) CmdIf -> . IF Expr : Cmd
     (30) CmdIf -> . IF Expr : Cmd ELSE :
-    (31) CmdWhile -> . WHILE Expr : Cmd
+    (31) CmdWhile -> . WHILE Expr : Cmds
     (32) CmdFor -> . FOR CmdAtrib TO Expr : Cmd
     (33) CmdBreak -> . BREAK
     (34) CmdPrint -> . PRINT ( ExprList )
     (35) CmdReturn -> . RETURN Expr
-    (36) CmdSeq -> . { CmdList }
+
+    {               shift and go to state 27
+    ID              shift and go to state 35
+    IF              shift and go to state 36
+    WHILE           shift and go to state 37
+    FOR             shift and go to state 38
+    BREAK           shift and go to state 39
+    PRINT           shift and go to state 40
+    RETURN          shift and go to state 41
+
+    Cmds                           shift and go to state 110
+    CmdSeq                         shift and go to state 25
+    Cmd                            shift and go to state 26
+    CmdAtrib                       shift and go to state 28
+    CmdIf                          shift and go to state 29
+    CmdWhile                       shift and go to state 30
+    CmdFor                         shift and go to state 31
+    CmdBreak                       shift and go to state 32
+    CmdPrint                       shift and go to state 33
+    CmdReturn                      shift and go to state 34
+
+state 91
+
+    (32) CmdFor -> FOR CmdAtrib TO . Expr : Cmd
     (39) Expr -> . INT
     (40) Expr -> . TRUE
     (41) Expr -> . FALSE
@@ -1907,57 +1881,40 @@ state 84
     (62) UnOp -> . -
     (63) UnOp -> . NOT
 
-    ID              shift and go to state 33
-    IF              shift and go to state 35
-    WHILE           shift and go to state 36
-    FOR             shift and go to state 37
-    BREAK           shift and go to state 38
-    PRINT           shift and go to state 39
-    RETURN          shift and go to state 41
-    {               shift and go to state 42
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
+    INT             shift and go to state 51
+    TRUE            shift and go to state 52
+    FALSE           shift and go to state 53
+    ID              shift and go to state 54
+    (               shift and go to state 56
+    READ            shift and go to state 57
+    -               shift and go to state 58
+    NOT             shift and go to state 59
 
-    Cmd                            shift and go to state 54
-    CmdList                        shift and go to state 105
-    CmdAtrib                       shift and go to state 25
-    CmdIf                          shift and go to state 26
-    CmdWhile                       shift and go to state 27
-    CmdFor                         shift and go to state 28
-    CmdBreak                       shift and go to state 29
-    CmdPrint                       shift and go to state 30
-    CmdReturn                      shift and go to state 31
-    CmdSeq                         shift and go to state 32
-    Expr                           shift and go to state 34
-    UnOp                           shift and go to state 46
+    Expr                           shift and go to state 111
+    UnOp                           shift and go to state 55
 
-state 85
+state 92
 
-    (46) Expr -> ID ( ExprList . )
+    (34) CmdPrint -> PRINT ( ExprList . )
 
-    )               shift and go to state 106
+    )               shift and go to state 112
 
 
-state 86
+state 93
 
     (64) ExprList -> empty .
 
     )               reduce using rule 64 (ExprList -> empty .)
 
 
-state 87
+state 94
 
     (65) ExprList -> ExprList1 .
 
     )               reduce using rule 65 (ExprList -> ExprList1 .)
 
 
-state 88
+state 95
 
     (66) ExprList1 -> Expr .
     (67) ExprList1 -> Expr . , ExprList1
@@ -1978,25 +1935,108 @@ state 88
     (61) BinOp -> . OR
 
     )               reduce using rule 66 (ExprList1 -> Expr .)
-    ,               shift and go to state 107
-    +               shift and go to state 57
-    -               shift and go to state 58
-    *               shift and go to state 59
-    DIVIDE          shift and go to state 60
-    EXP             shift and go to state 61
-    %               shift and go to state 62
-    EQUAL           shift and go to state 63
-    NOTEQUAL        shift and go to state 64
-    <               shift and go to state 65
-    >               shift and go to state 66
-    LESSEQUAL       shift and go to state 67
-    GREATEREQUAL    shift and go to state 68
-    AND             shift and go to state 69
-    OR              shift and go to state 70
+    ,               shift and go to state 113
+    +               shift and go to state 72
+    -               shift and go to state 73
+    *               shift and go to state 74
+    DIVIDE          shift and go to state 75
+    EXP             shift and go to state 76
+    %               shift and go to state 77
+    EQUAL           shift and go to state 78
+    NOTEQUAL        shift and go to state 79
+    <               shift and go to state 80
+    >               shift and go to state 81
+    LESSEQUAL       shift and go to state 82
+    GREATEREQUAL    shift and go to state 83
+    AND             shift and go to state 84
+    OR              shift and go to state 85
 
-    BinOp                          shift and go to state 56
+    BinOp                          shift and go to state 71
 
-state 89
+state 96
+
+    (70) VarDecl -> VAR ID : Type . ;
+
+    ;               shift and go to state 114
+
+
+state 97
+
+    (71) Type -> INTEGER .
+
+    ;               reduce using rule 71 (Type -> INTEGER .)
+    ,               reduce using rule 71 (Type -> INTEGER .)
+    )               reduce using rule 71 (Type -> INTEGER .)
+
+
+state 98
+
+    (72) Type -> BOOL .
+
+    ;               reduce using rule 72 (Type -> BOOL .)
+    ,               reduce using rule 72 (Type -> BOOL .)
+    )               reduce using rule 72 (Type -> BOOL .)
+
+
+state 99
+
+    (17) Param -> ID . : Type
+
+    :               shift and go to state 115
+
+
+state 100
+
+    (8) FunctionHeader -> FunctionType FUNCTION ID ( ParamList . ) :
+
+    )               shift and go to state 116
+
+
+state 101
+
+    (13) ParamList -> empty .
+
+    )               reduce using rule 13 (ParamList -> empty .)
+
+
+state 102
+
+    (14) ParamList -> ParamList1 .
+
+    )               reduce using rule 14 (ParamList -> ParamList1 .)
+
+
+state 103
+
+    (15) ParamList1 -> Param . , ParamList1
+    (16) ParamList1 -> Param .
+
+    ,               shift and go to state 117
+    )               reduce using rule 16 (ParamList1 -> Param .)
+
+
+state 104
+
+    (37) CmdList -> Cmd ; CmdList .
+
+    }               reduce using rule 37 (CmdList -> Cmd ; CmdList .)
+
+
+state 105
+
+    (29) CmdIf -> IF Expr : Cmd .
+    (30) CmdIf -> IF Expr : Cmd . ELSE :
+
+  ! shift/reduce conflict for ELSE resolved as shift
+    $end            reduce using rule 29 (CmdIf -> IF Expr : Cmd .)
+    ;               reduce using rule 29 (CmdIf -> IF Expr : Cmd .)
+    }               reduce using rule 29 (CmdIf -> IF Expr : Cmd .)
+    ELSE            shift and go to state 118
+
+  ! ELSE            [ reduce using rule 29 (CmdIf -> IF Expr : Cmd .) ]
+
+
+state 106
 
     (43) Expr -> Expr BinOp Expr .
     (43) Expr -> Expr . BinOp Expr
@@ -2029,28 +2069,28 @@ state 89
   ! shift/reduce conflict for GREATEREQUAL resolved as shift
   ! shift/reduce conflict for AND resolved as shift
   ! shift/reduce conflict for OR resolved as shift
+    :               reduce using rule 43 (Expr -> Expr BinOp Expr .)
     $end            reduce using rule 43 (Expr -> Expr BinOp Expr .)
     ;               reduce using rule 43 (Expr -> Expr BinOp Expr .)
     }               reduce using rule 43 (Expr -> Expr BinOp Expr .)
-    :               reduce using rule 43 (Expr -> Expr BinOp Expr .)
+    ELSE            reduce using rule 43 (Expr -> Expr BinOp Expr .)
     TO              reduce using rule 43 (Expr -> Expr BinOp Expr .)
     )               reduce using rule 43 (Expr -> Expr BinOp Expr .)
-    ELSE            reduce using rule 43 (Expr -> Expr BinOp Expr .)
     ,               reduce using rule 43 (Expr -> Expr BinOp Expr .)
-    +               shift and go to state 57
-    -               shift and go to state 58
-    *               shift and go to state 59
-    DIVIDE          shift and go to state 60
-    EXP             shift and go to state 61
-    %               shift and go to state 62
-    EQUAL           shift and go to state 63
-    NOTEQUAL        shift and go to state 64
-    <               shift and go to state 65
-    >               shift and go to state 66
-    LESSEQUAL       shift and go to state 67
-    GREATEREQUAL    shift and go to state 68
-    AND             shift and go to state 69
-    OR              shift and go to state 70
+    +               shift and go to state 72
+    -               shift and go to state 73
+    *               shift and go to state 74
+    DIVIDE          shift and go to state 75
+    EXP             shift and go to state 76
+    %               shift and go to state 77
+    EQUAL           shift and go to state 78
+    NOTEQUAL        shift and go to state 79
+    <               shift and go to state 80
+    >               shift and go to state 81
+    LESSEQUAL       shift and go to state 82
+    GREATEREQUAL    shift and go to state 83
+    AND             shift and go to state 84
+    OR              shift and go to state 85
 
   ! +               [ reduce using rule 43 (Expr -> Expr BinOp Expr .) ]
   ! -               [ reduce using rule 43 (Expr -> Expr BinOp Expr .) ]
@@ -2067,169 +2107,20 @@ state 89
   ! AND             [ reduce using rule 43 (Expr -> Expr BinOp Expr .) ]
   ! OR              [ reduce using rule 43 (Expr -> Expr BinOp Expr .) ]
 
-    BinOp                          shift and go to state 56
+    BinOp                          shift and go to state 71
 
-state 90
+state 107
 
-    (29) CmdIf -> IF Expr : . Cmd
-    (30) CmdIf -> IF Expr : . Cmd ELSE :
-    (19) Cmd -> . CmdAtrib
-    (20) Cmd -> . CmdIf
-    (21) Cmd -> . CmdWhile
-    (22) Cmd -> . CmdFor
-    (23) Cmd -> . CmdBreak
-    (24) Cmd -> . CmdPrint
-    (25) Cmd -> . CmdReturn
-    (26) Cmd -> . CmdSeq
-    (27) CmdAtrib -> . ID
-    (28) CmdAtrib -> . Expr
-    (29) CmdIf -> . IF Expr : Cmd
-    (30) CmdIf -> . IF Expr : Cmd ELSE :
-    (31) CmdWhile -> . WHILE Expr : Cmd
-    (32) CmdFor -> . FOR CmdAtrib TO Expr : Cmd
-    (33) CmdBreak -> . BREAK
-    (34) CmdPrint -> . PRINT ( ExprList )
-    (35) CmdReturn -> . RETURN Expr
-    (36) CmdSeq -> . { CmdList }
-    (39) Expr -> . INT
-    (40) Expr -> . TRUE
-    (41) Expr -> . FALSE
-    (42) Expr -> . ID
-    (43) Expr -> . Expr BinOp Expr
-    (44) Expr -> . UnOp Expr
-    (45) Expr -> . ( Expr )
-    (46) Expr -> . ID ( ExprList )
-    (47) Expr -> . READ ( )
-    (62) UnOp -> . -
-    (63) UnOp -> . NOT
+    (46) Expr -> ID ( ExprList . )
 
-    ID              shift and go to state 33
-    IF              shift and go to state 35
-    WHILE           shift and go to state 36
-    FOR             shift and go to state 37
-    BREAK           shift and go to state 38
-    PRINT           shift and go to state 39
-    RETURN          shift and go to state 41
-    {               shift and go to state 42
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
-
-    Expr                           shift and go to state 34
-    Cmd                            shift and go to state 108
-    CmdAtrib                       shift and go to state 25
-    CmdIf                          shift and go to state 26
-    CmdWhile                       shift and go to state 27
-    CmdFor                         shift and go to state 28
-    CmdBreak                       shift and go to state 29
-    CmdPrint                       shift and go to state 30
-    CmdReturn                      shift and go to state 31
-    CmdSeq                         shift and go to state 32
-    UnOp                           shift and go to state 46
-
-state 91
-
-    (31) CmdWhile -> WHILE Expr : . Cmd
-    (19) Cmd -> . CmdAtrib
-    (20) Cmd -> . CmdIf
-    (21) Cmd -> . CmdWhile
-    (22) Cmd -> . CmdFor
-    (23) Cmd -> . CmdBreak
-    (24) Cmd -> . CmdPrint
-    (25) Cmd -> . CmdReturn
-    (26) Cmd -> . CmdSeq
-    (27) CmdAtrib -> . ID
-    (28) CmdAtrib -> . Expr
-    (29) CmdIf -> . IF Expr : Cmd
-    (30) CmdIf -> . IF Expr : Cmd ELSE :
-    (31) CmdWhile -> . WHILE Expr : Cmd
-    (32) CmdFor -> . FOR CmdAtrib TO Expr : Cmd
-    (33) CmdBreak -> . BREAK
-    (34) CmdPrint -> . PRINT ( ExprList )
-    (35) CmdReturn -> . RETURN Expr
-    (36) CmdSeq -> . { CmdList }
-    (39) Expr -> . INT
-    (40) Expr -> . TRUE
-    (41) Expr -> . FALSE
-    (42) Expr -> . ID
-    (43) Expr -> . Expr BinOp Expr
-    (44) Expr -> . UnOp Expr
-    (45) Expr -> . ( Expr )
-    (46) Expr -> . ID ( ExprList )
-    (47) Expr -> . READ ( )
-    (62) UnOp -> . -
-    (63) UnOp -> . NOT
-
-    ID              shift and go to state 33
-    IF              shift and go to state 35
-    WHILE           shift and go to state 36
-    FOR             shift and go to state 37
-    BREAK           shift and go to state 38
-    PRINT           shift and go to state 39
-    RETURN          shift and go to state 41
-    {               shift and go to state 42
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
-
-    Expr                           shift and go to state 34
-    Cmd                            shift and go to state 109
-    CmdAtrib                       shift and go to state 25
-    CmdIf                          shift and go to state 26
-    CmdWhile                       shift and go to state 27
-    CmdFor                         shift and go to state 28
-    CmdBreak                       shift and go to state 29
-    CmdPrint                       shift and go to state 30
-    CmdReturn                      shift and go to state 31
-    CmdSeq                         shift and go to state 32
-    UnOp                           shift and go to state 46
-
-state 92
-
-    (32) CmdFor -> FOR CmdAtrib TO . Expr : Cmd
-    (39) Expr -> . INT
-    (40) Expr -> . TRUE
-    (41) Expr -> . FALSE
-    (42) Expr -> . ID
-    (43) Expr -> . Expr BinOp Expr
-    (44) Expr -> . UnOp Expr
-    (45) Expr -> . ( Expr )
-    (46) Expr -> . ID ( ExprList )
-    (47) Expr -> . READ ( )
-    (62) UnOp -> . -
-    (63) UnOp -> . NOT
-
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    ID              shift and go to state 72
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
-
-    Expr                           shift and go to state 110
-    UnOp                           shift and go to state 46
-
-state 93
-
-    (34) CmdPrint -> PRINT ( ExprList . )
-
-    )               shift and go to state 111
+    )               shift and go to state 119
 
 
-state 94
+state 108
 
     (45) Expr -> ( Expr ) .
 
+    :               reduce using rule 45 (Expr -> ( Expr ) .)
     +               reduce using rule 45 (Expr -> ( Expr ) .)
     -               reduce using rule 45 (Expr -> ( Expr ) .)
     *               reduce using rule 45 (Expr -> ( Expr ) .)
@@ -2247,27 +2138,17 @@ state 94
     $end            reduce using rule 45 (Expr -> ( Expr ) .)
     ;               reduce using rule 45 (Expr -> ( Expr ) .)
     }               reduce using rule 45 (Expr -> ( Expr ) .)
-    :               reduce using rule 45 (Expr -> ( Expr ) .)
+    ELSE            reduce using rule 45 (Expr -> ( Expr ) .)
     TO              reduce using rule 45 (Expr -> ( Expr ) .)
     )               reduce using rule 45 (Expr -> ( Expr ) .)
-    ELSE            reduce using rule 45 (Expr -> ( Expr ) .)
     ,               reduce using rule 45 (Expr -> ( Expr ) .)
 
 
-state 95
-
-    (36) CmdSeq -> { CmdList } .
-
-    $end            reduce using rule 36 (CmdSeq -> { CmdList } .)
-    ;               reduce using rule 36 (CmdSeq -> { CmdList } .)
-    }               reduce using rule 36 (CmdSeq -> { CmdList } .)
-    ELSE            reduce using rule 36 (CmdSeq -> { CmdList } .)
-
-
-state 96
+state 109
 
     (47) Expr -> READ ( ) .
 
+    :               reduce using rule 47 (Expr -> READ ( ) .)
     +               reduce using rule 47 (Expr -> READ ( ) .)
     -               reduce using rule 47 (Expr -> READ ( ) .)
     *               reduce using rule 47 (Expr -> READ ( ) .)
@@ -2285,165 +2166,23 @@ state 96
     $end            reduce using rule 47 (Expr -> READ ( ) .)
     ;               reduce using rule 47 (Expr -> READ ( ) .)
     }               reduce using rule 47 (Expr -> READ ( ) .)
-    :               reduce using rule 47 (Expr -> READ ( ) .)
+    ELSE            reduce using rule 47 (Expr -> READ ( ) .)
     TO              reduce using rule 47 (Expr -> READ ( ) .)
     )               reduce using rule 47 (Expr -> READ ( ) .)
-    ELSE            reduce using rule 47 (Expr -> READ ( ) .)
     ,               reduce using rule 47 (Expr -> READ ( ) .)
 
 
-state 97
-
-    (70) VarDecl -> VAR ID : Type . ;
-
-    ;               shift and go to state 112
-
-
-state 98
-
-    (71) Type -> INTEGER .
-
-    ;               reduce using rule 71 (Type -> INTEGER .)
-    ,               reduce using rule 71 (Type -> INTEGER .)
-    )               reduce using rule 71 (Type -> INTEGER .)
-
-
-state 99
-
-    (72) Type -> BOOL .
-
-    ;               reduce using rule 72 (Type -> BOOL .)
-    ,               reduce using rule 72 (Type -> BOOL .)
-    )               reduce using rule 72 (Type -> BOOL .)
-
-
-state 100
-
-    (18) Param -> ID . : Type
-
-    :               shift and go to state 113
-
-
-state 101
-
-    (9) FunctionHeader -> FunctionType FUNCTION ID ( ParamList . ) :
-
-    )               shift and go to state 114
-
-
-state 102
-
-    (14) ParamList -> empty .
-
-    )               reduce using rule 14 (ParamList -> empty .)
-
-
-state 103
-
-    (15) ParamList -> ParamList1 .
-
-    )               reduce using rule 15 (ParamList -> ParamList1 .)
-
-
-state 104
-
-    (16) ParamList1 -> Param . , ParamList1
-    (17) ParamList1 -> Param .
-
-    ,               shift and go to state 115
-    )               reduce using rule 17 (ParamList1 -> Param .)
-
-
-state 105
-
-    (37) CmdList -> Cmd ; CmdList .
-
-    }               reduce using rule 37 (CmdList -> Cmd ; CmdList .)
-
-
-state 106
-
-    (46) Expr -> ID ( ExprList ) .
-
-    +               reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    -               reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    *               reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    DIVIDE          reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    EXP             reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    %               reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    EQUAL           reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    NOTEQUAL        reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    <               reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    >               reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    LESSEQUAL       reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    GREATEREQUAL    reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    AND             reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    OR              reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    $end            reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    ;               reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    }               reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    :               reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    TO              reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    )               reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    ELSE            reduce using rule 46 (Expr -> ID ( ExprList ) .)
-    ,               reduce using rule 46 (Expr -> ID ( ExprList ) .)
-
-
-state 107
-
-    (67) ExprList1 -> Expr , . ExprList1
-    (66) ExprList1 -> . Expr
-    (67) ExprList1 -> . Expr , ExprList1
-    (39) Expr -> . INT
-    (40) Expr -> . TRUE
-    (41) Expr -> . FALSE
-    (42) Expr -> . ID
-    (43) Expr -> . Expr BinOp Expr
-    (44) Expr -> . UnOp Expr
-    (45) Expr -> . ( Expr )
-    (46) Expr -> . ID ( ExprList )
-    (47) Expr -> . READ ( )
-    (62) UnOp -> . -
-    (63) UnOp -> . NOT
-
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    ID              shift and go to state 72
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
-
-    Expr                           shift and go to state 88
-    ExprList1                      shift and go to state 116
-    UnOp                           shift and go to state 46
-
-state 108
-
-    (29) CmdIf -> IF Expr : Cmd .
-    (30) CmdIf -> IF Expr : Cmd . ELSE :
-
-  ! shift/reduce conflict for ELSE resolved as shift
-    $end            reduce using rule 29 (CmdIf -> IF Expr : Cmd .)
-    ;               reduce using rule 29 (CmdIf -> IF Expr : Cmd .)
-    }               reduce using rule 29 (CmdIf -> IF Expr : Cmd .)
-    ELSE            shift and go to state 117
-
-  ! ELSE            [ reduce using rule 29 (CmdIf -> IF Expr : Cmd .) ]
-
-
-state 109
-
-    (31) CmdWhile -> WHILE Expr : Cmd .
-
-    $end            reduce using rule 31 (CmdWhile -> WHILE Expr : Cmd .)
-    ;               reduce using rule 31 (CmdWhile -> WHILE Expr : Cmd .)
-    }               reduce using rule 31 (CmdWhile -> WHILE Expr : Cmd .)
-    ELSE            reduce using rule 31 (CmdWhile -> WHILE Expr : Cmd .)
-
-
 state 110
+
+    (31) CmdWhile -> WHILE Expr : Cmds .
+
+    $end            reduce using rule 31 (CmdWhile -> WHILE Expr : Cmds .)
+    ;               reduce using rule 31 (CmdWhile -> WHILE Expr : Cmds .)
+    }               reduce using rule 31 (CmdWhile -> WHILE Expr : Cmds .)
+    ELSE            reduce using rule 31 (CmdWhile -> WHILE Expr : Cmds .)
+
+
+state 111
 
     (32) CmdFor -> FOR CmdAtrib TO Expr . : Cmd
     (43) Expr -> Expr . BinOp Expr
@@ -2462,25 +2201,25 @@ state 110
     (60) BinOp -> . AND
     (61) BinOp -> . OR
 
-    :               shift and go to state 118
-    +               shift and go to state 57
-    -               shift and go to state 58
-    *               shift and go to state 59
-    DIVIDE          shift and go to state 60
-    EXP             shift and go to state 61
-    %               shift and go to state 62
-    EQUAL           shift and go to state 63
-    NOTEQUAL        shift and go to state 64
-    <               shift and go to state 65
-    >               shift and go to state 66
-    LESSEQUAL       shift and go to state 67
-    GREATEREQUAL    shift and go to state 68
-    AND             shift and go to state 69
-    OR              shift and go to state 70
+    :               shift and go to state 120
+    +               shift and go to state 72
+    -               shift and go to state 73
+    *               shift and go to state 74
+    DIVIDE          shift and go to state 75
+    EXP             shift and go to state 76
+    %               shift and go to state 77
+    EQUAL           shift and go to state 78
+    NOTEQUAL        shift and go to state 79
+    <               shift and go to state 80
+    >               shift and go to state 81
+    LESSEQUAL       shift and go to state 82
+    GREATEREQUAL    shift and go to state 83
+    AND             shift and go to state 84
+    OR              shift and go to state 85
 
-    BinOp                          shift and go to state 56
+    BinOp                          shift and go to state 71
 
-state 111
+state 112
 
     (34) CmdPrint -> PRINT ( ExprList ) .
 
@@ -2490,93 +2229,11 @@ state 111
     ELSE            reduce using rule 34 (CmdPrint -> PRINT ( ExprList ) .)
 
 
-state 112
-
-    (70) VarDecl -> VAR ID : Type ; .
-
-    VAR             reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
-    ID              reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
-    IF              reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
-    WHILE           reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
-    FOR             reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
-    BREAK           reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
-    PRINT           reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
-    RETURN          reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
-    {               reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
-    INT             reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
-    TRUE            reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
-    FALSE           reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
-    (               reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
-    READ            reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
-    -               reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
-    NOT             reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
-
-
 state 113
 
-    (18) Param -> ID : . Type
-    (71) Type -> . INTEGER
-    (72) Type -> . BOOL
-
-    INTEGER         shift and go to state 98
-    BOOL            shift and go to state 99
-
-    Type                           shift and go to state 119
-
-state 114
-
-    (9) FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) . :
-
-    :               shift and go to state 120
-
-
-state 115
-
-    (16) ParamList1 -> Param , . ParamList1
-    (16) ParamList1 -> . Param , ParamList1
-    (17) ParamList1 -> . Param
-    (18) Param -> . ID : Type
-
-    ID              shift and go to state 100
-
-    Param                          shift and go to state 104
-    ParamList1                     shift and go to state 121
-
-state 116
-
-    (67) ExprList1 -> Expr , ExprList1 .
-
-    )               reduce using rule 67 (ExprList1 -> Expr , ExprList1 .)
-
-
-state 117
-
-    (30) CmdIf -> IF Expr : Cmd ELSE . :
-
-    :               shift and go to state 122
-
-
-state 118
-
-    (32) CmdFor -> FOR CmdAtrib TO Expr : . Cmd
-    (19) Cmd -> . CmdAtrib
-    (20) Cmd -> . CmdIf
-    (21) Cmd -> . CmdWhile
-    (22) Cmd -> . CmdFor
-    (23) Cmd -> . CmdBreak
-    (24) Cmd -> . CmdPrint
-    (25) Cmd -> . CmdReturn
-    (26) Cmd -> . CmdSeq
-    (27) CmdAtrib -> . ID
-    (28) CmdAtrib -> . Expr
-    (29) CmdIf -> . IF Expr : Cmd
-    (30) CmdIf -> . IF Expr : Cmd ELSE :
-    (31) CmdWhile -> . WHILE Expr : Cmd
-    (32) CmdFor -> . FOR CmdAtrib TO Expr : Cmd
-    (33) CmdBreak -> . BREAK
-    (34) CmdPrint -> . PRINT ( ExprList )
-    (35) CmdReturn -> . RETURN Expr
-    (36) CmdSeq -> . { CmdList }
+    (67) ExprList1 -> Expr , . ExprList1
+    (66) ExprList1 -> . Expr
+    (67) ExprList1 -> . Expr , ExprList1
     (39) Expr -> . INT
     (40) Expr -> . TRUE
     (41) Expr -> . FALSE
@@ -2589,75 +2246,180 @@ state 118
     (62) UnOp -> . -
     (63) UnOp -> . NOT
 
-    ID              shift and go to state 33
-    IF              shift and go to state 35
-    WHILE           shift and go to state 36
-    FOR             shift and go to state 37
-    BREAK           shift and go to state 38
-    PRINT           shift and go to state 39
-    RETURN          shift and go to state 41
-    {               shift and go to state 42
-    INT             shift and go to state 43
-    TRUE            shift and go to state 44
-    FALSE           shift and go to state 45
-    (               shift and go to state 40
-    READ            shift and go to state 47
-    -               shift and go to state 48
-    NOT             shift and go to state 49
+    INT             shift and go to state 51
+    TRUE            shift and go to state 52
+    FALSE           shift and go to state 53
+    ID              shift and go to state 54
+    (               shift and go to state 56
+    READ            shift and go to state 57
+    -               shift and go to state 58
+    NOT             shift and go to state 59
 
-    CmdAtrib                       shift and go to state 25
-    Expr                           shift and go to state 34
-    Cmd                            shift and go to state 123
-    CmdIf                          shift and go to state 26
-    CmdWhile                       shift and go to state 27
-    CmdFor                         shift and go to state 28
-    CmdBreak                       shift and go to state 29
-    CmdPrint                       shift and go to state 30
-    CmdReturn                      shift and go to state 31
-    CmdSeq                         shift and go to state 32
-    UnOp                           shift and go to state 46
+    Expr                           shift and go to state 95
+    ExprList1                      shift and go to state 121
+    UnOp                           shift and go to state 55
+
+state 114
+
+    (70) VarDecl -> VAR ID : Type ; .
+
+    VAR             reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
+    {               reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
+    ID              reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
+    IF              reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
+    WHILE           reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
+    FOR             reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
+    BREAK           reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
+    PRINT           reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
+    RETURN          reduce using rule 70 (VarDecl -> VAR ID : Type ; .)
+
+
+state 115
+
+    (17) Param -> ID : . Type
+    (71) Type -> . INTEGER
+    (72) Type -> . BOOL
+
+    INTEGER         shift and go to state 97
+    BOOL            shift and go to state 98
+
+    Type                           shift and go to state 122
+
+state 116
+
+    (8) FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) . :
+
+    :               shift and go to state 123
+
+
+state 117
+
+    (15) ParamList1 -> Param , . ParamList1
+    (15) ParamList1 -> . Param , ParamList1
+    (16) ParamList1 -> . Param
+    (17) Param -> . ID : Type
+
+    ID              shift and go to state 99
+
+    Param                          shift and go to state 103
+    ParamList1                     shift and go to state 124
+
+state 118
+
+    (30) CmdIf -> IF Expr : Cmd ELSE . :
+
+    :               shift and go to state 125
+
 
 state 119
 
-    (18) Param -> ID : Type .
+    (46) Expr -> ID ( ExprList ) .
 
-    ,               reduce using rule 18 (Param -> ID : Type .)
-    )               reduce using rule 18 (Param -> ID : Type .)
+    :               reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    +               reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    -               reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    *               reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    DIVIDE          reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    EXP             reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    %               reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    EQUAL           reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    NOTEQUAL        reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    <               reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    >               reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    LESSEQUAL       reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    GREATEREQUAL    reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    AND             reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    OR              reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    $end            reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    ;               reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    }               reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    ELSE            reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    TO              reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    )               reduce using rule 46 (Expr -> ID ( ExprList ) .)
+    ,               reduce using rule 46 (Expr -> ID ( ExprList ) .)
 
 
 state 120
 
-    (9) FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .
+    (32) CmdFor -> FOR CmdAtrib TO Expr : . Cmd
+    (20) Cmd -> . CmdAtrib
+    (21) Cmd -> . CmdIf
+    (22) Cmd -> . CmdWhile
+    (23) Cmd -> . CmdFor
+    (24) Cmd -> . CmdBreak
+    (25) Cmd -> . CmdPrint
+    (26) Cmd -> . CmdReturn
+    (27) Cmd -> . CmdSeq
+    (28) CmdAtrib -> . ID = Expr
+    (29) CmdIf -> . IF Expr : Cmd
+    (30) CmdIf -> . IF Expr : Cmd ELSE :
+    (31) CmdWhile -> . WHILE Expr : Cmds
+    (32) CmdFor -> . FOR CmdAtrib TO Expr : Cmd
+    (33) CmdBreak -> . BREAK
+    (34) CmdPrint -> . PRINT ( ExprList )
+    (35) CmdReturn -> . RETURN Expr
+    (36) CmdSeq -> . { CmdList }
 
-    {               reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    INTEGER         reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    BOOL            reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    VOID            reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    VAR             reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    ID              reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    IF              reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    WHILE           reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    FOR             reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    BREAK           reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    PRINT           reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    RETURN          reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    INT             reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    TRUE            reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    FALSE           reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    (               reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    READ            reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    -               reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
-    NOT             reduce using rule 9 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
+    ID              shift and go to state 35
+    IF              shift and go to state 36
+    WHILE           shift and go to state 37
+    FOR             shift and go to state 38
+    BREAK           shift and go to state 39
+    PRINT           shift and go to state 40
+    RETURN          shift and go to state 41
+    {               shift and go to state 27
 
+    CmdAtrib                       shift and go to state 28
+    Cmd                            shift and go to state 126
+    CmdIf                          shift and go to state 29
+    CmdWhile                       shift and go to state 30
+    CmdFor                         shift and go to state 31
+    CmdBreak                       shift and go to state 32
+    CmdPrint                       shift and go to state 33
+    CmdReturn                      shift and go to state 34
+    CmdSeq                         shift and go to state 47
 
 state 121
 
-    (16) ParamList1 -> Param , ParamList1 .
+    (67) ExprList1 -> Expr , ExprList1 .
 
-    )               reduce using rule 16 (ParamList1 -> Param , ParamList1 .)
+    )               reduce using rule 67 (ExprList1 -> Expr , ExprList1 .)
 
 
 state 122
+
+    (17) Param -> ID : Type .
+
+    ,               reduce using rule 17 (Param -> ID : Type .)
+    )               reduce using rule 17 (Param -> ID : Type .)
+
+
+state 123
+
+    (8) FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .
+
+    {               reduce using rule 8 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
+    INTEGER         reduce using rule 8 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
+    BOOL            reduce using rule 8 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
+    VOID            reduce using rule 8 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
+    VAR             reduce using rule 8 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
+    ID              reduce using rule 8 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
+    IF              reduce using rule 8 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
+    WHILE           reduce using rule 8 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
+    FOR             reduce using rule 8 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
+    BREAK           reduce using rule 8 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
+    PRINT           reduce using rule 8 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
+    RETURN          reduce using rule 8 (FunctionHeader -> FunctionType FUNCTION ID ( ParamList ) : .)
+
+
+state 124
+
+    (15) ParamList1 -> Param , ParamList1 .
+
+    )               reduce using rule 15 (ParamList1 -> Param , ParamList1 .)
+
+
+state 125
 
     (30) CmdIf -> IF Expr : Cmd ELSE : .
 
@@ -2667,7 +2429,7 @@ state 122
     ELSE            reduce using rule 30 (CmdIf -> IF Expr : Cmd ELSE : .)
 
 
-state 123
+state 126
 
     (32) CmdFor -> FOR CmdAtrib TO Expr : Cmd .
 
@@ -2679,36 +2441,22 @@ state 123
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for { in state 0 resolved as shift
+WARNING: shift/reduce conflict for { in state 2 resolved as shift
 WARNING: shift/reduce conflict for { in state 7 resolved as shift
-WARNING: shift/reduce conflict for + in state 79 resolved as shift
-WARNING: shift/reduce conflict for - in state 79 resolved as shift
-WARNING: shift/reduce conflict for * in state 79 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 79 resolved as shift
-WARNING: shift/reduce conflict for EXP in state 79 resolved as shift
-WARNING: shift/reduce conflict for % in state 79 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 79 resolved as shift
-WARNING: shift/reduce conflict for NOTEQUAL in state 79 resolved as shift
-WARNING: shift/reduce conflict for < in state 79 resolved as shift
-WARNING: shift/reduce conflict for > in state 79 resolved as shift
-WARNING: shift/reduce conflict for LESSEQUAL in state 79 resolved as shift
-WARNING: shift/reduce conflict for GREATEREQUAL in state 79 resolved as shift
-WARNING: shift/reduce conflict for AND in state 79 resolved as shift
-WARNING: shift/reduce conflict for OR in state 79 resolved as shift
-WARNING: shift/reduce conflict for + in state 89 resolved as shift
-WARNING: shift/reduce conflict for - in state 89 resolved as shift
-WARNING: shift/reduce conflict for * in state 89 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 89 resolved as shift
-WARNING: shift/reduce conflict for EXP in state 89 resolved as shift
-WARNING: shift/reduce conflict for % in state 89 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 89 resolved as shift
-WARNING: shift/reduce conflict for NOTEQUAL in state 89 resolved as shift
-WARNING: shift/reduce conflict for < in state 89 resolved as shift
-WARNING: shift/reduce conflict for > in state 89 resolved as shift
-WARNING: shift/reduce conflict for LESSEQUAL in state 89 resolved as shift
-WARNING: shift/reduce conflict for GREATEREQUAL in state 89 resolved as shift
-WARNING: shift/reduce conflict for AND in state 89 resolved as shift
-WARNING: shift/reduce conflict for OR in state 89 resolved as shift
-WARNING: shift/reduce conflict for ELSE in state 108 resolved as shift
-WARNING: reduce/reduce conflict in state 33 resolved using rule (CmdAtrib -> ID)
-WARNING: rejected rule (Expr -> ID) in state 33
+WARNING: shift/reduce conflict for ELSE in state 105 resolved as shift
+WARNING: shift/reduce conflict for + in state 106 resolved as shift
+WARNING: shift/reduce conflict for - in state 106 resolved as shift
+WARNING: shift/reduce conflict for * in state 106 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 106 resolved as shift
+WARNING: shift/reduce conflict for EXP in state 106 resolved as shift
+WARNING: shift/reduce conflict for % in state 106 resolved as shift
+WARNING: shift/reduce conflict for EQUAL in state 106 resolved as shift
+WARNING: shift/reduce conflict for NOTEQUAL in state 106 resolved as shift
+WARNING: shift/reduce conflict for < in state 106 resolved as shift
+WARNING: shift/reduce conflict for > in state 106 resolved as shift
+WARNING: shift/reduce conflict for LESSEQUAL in state 106 resolved as shift
+WARNING: shift/reduce conflict for GREATEREQUAL in state 106 resolved as shift
+WARNING: shift/reduce conflict for AND in state 106 resolved as shift
+WARNING: shift/reduce conflict for OR in state 106 resolved as shift
+WARNING: reduce/reduce conflict in state 25 resolved using rule (Cmds -> CmdSeq)
+WARNING: rejected rule (Cmd -> CmdSeq) in state 25
