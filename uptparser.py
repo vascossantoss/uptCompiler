@@ -14,7 +14,7 @@ precedence = (
 
 start = 'Program'
 
-# ---------------- 5) Programs Grammar -------------------------
+# ---------------- 5) Programs Grammar --------------------------------------
 
 def p_program(p):
    '''
@@ -30,7 +30,7 @@ def p_ProgramHeader(p):
 
 def p_ProgramBody(p):
    '''
-   ProgramBody : FuncDecls VarDecls Cmds
+   ProgramBody : FuncDecls VarDecls Cmd
    '''
    p[0] = ('programBody', p[1], p[2], p[3])
 
@@ -97,13 +97,6 @@ def p_Param(p):
 
 # ---------------- 3) Commands Grammar -------------------------
 
-def p_Cmds(p):
-    '''
-    Cmds : CmdSeq
-         | Cmd
-    '''
-    p[0] = ('cmds', p[1])
-
 def p_Cmd(p):
     '''
     Cmd : CmdAtrib 
@@ -132,7 +125,7 @@ def p_CmdIf(p):
     
 def p_CmdWhile(p):
     '''
-    CmdWhile : WHILE Expr ':' Cmds 
+    CmdWhile : WHILE Expr ':' Cmd 
     '''
     p[0] = ('CmdWhile', p[1], p[2], p[4])
 
@@ -286,7 +279,7 @@ def p_error(p):
 
 parser = yacc.yacc()
 
-ast = parser.parse('program count; var i: int; { i = 1; while i <= 10: {print(i); i = i + 1}}')
+ast = parser.parse('program count; var i: int; { i = 1; while not i: {print(i); i = i + -1}}')
 print(ast)
 
 
@@ -325,7 +318,7 @@ print(ast)
 # # Test the parser
 # while True:
 #     try:
-#         s = input('program count; var i: int; { i = 1; while i <= 10: {print(i); i = i + 1}}')
+#         s = input('program count; var i: int; { i = 1; while not i: {print(i); i = i + 1}}')
 #     except EOFError:
 #         break
 #     if not s:
