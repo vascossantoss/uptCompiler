@@ -1,13 +1,45 @@
 import ply.yacc as yacc
 from uptlexer import tokens
 
+class SymbolTable:
+    def __init__(self):
+        self.symbols = {}
+
+    def declare(self, name, var_type):
+        if name in self.symbols:
+            raise Exception(f"Symbol '{name}' already declared")
+        self.symbols[name] = var_type
+
+    def lookup(self, name):
+        if name not in self.symbols:
+            raise Exception(f"Symbol '{name}' not declared")
+        return self.symbols[name]
+
+def check_expr(expr,symtab):
+    if expr[0] == 'INT':
+        return symtab[expr[1]] # Atributo sintetizado
+    elif expr[0] == '+':
+        t1 = check_expr(expr[1],symtab)
+        t2 = check_expr(expr[2],symtab)
+        if t1 == 'INT' and t2 == 'INT':
+            return 'INT'
+        else:
+            raise Exception('Erro de tipos na soma')
+
+# # Semantic analysis structures
+# symbol_table = {}
+# functions_table = {}
+
+# Symbol table instance
+symtab = SymbolTable()
+
 precedence = (
     ('left', 'OR'),
     ('left', 'AND'),
     ('right', 'NOT'),
     ('nonassoc', 'EQUAL', 'NOTEQUAL', '<', '>', 'LESSEQUAL', 'GREATEREQUAL'),
     ('left', '+', '-'),
-    ('left', '*', 'DIVIDE' , '%'),
+    ('left', '*', '/' , '%'),
     ('right', 'EXP'),
     ('right', 'UMINUS'),
 )
@@ -41,13 +73,14 @@ def p_FuncDecls(p):
    '''
    if len(p) == 3:
     p[0] = ('FuncDecls', p[1], p[2])
+   else:
+       p[0] = ('FuncDecls', p[1])
 
 # ---------------- 4) Functions Grammar -------------------------
 
 def p_Function(p):
    '''
-   Function : FunctionHeader 
-            | FunctionBody
+   Function : FunctionHeader  FunctionBody
    '''
    p[0] = ('Function', p[1], p[2])
    
@@ -55,7 +88,8 @@ def p_FunctionHeader(p):
    '''
    FunctionHeader : FunctionType FUNCTION ID '(' ParamList ')' ':' 
    '''
-   p[0] = ('FunctionHeader', p[1], p[2], p[3], p[5])
+   symtab.declare(p[3], p[1])  # Declare function in symbol table
+   p[0] = ('FunctionHeader', p[1], p[3], p[5])
 
 def p_FunctionType(p):
    '''
@@ -112,28 +146,34 @@ def p_Cmd(p):
 
 def p_CmdAtrib(p):
     '''
-    CmdAtrib : ID '=' Expr
+    CmdAtrib : ID 
+             | Expr
     '''
-    p[0] = ('CmdAtrib', p[1], p[2], p[3])
+    p[0] = ('CmdAtrib', p[1])
 
+# grammar was changed
+# restrict the "then" part to be a block: "{ ... }". (best option for your project?)
 def p_CmdIf(p):
     '''
     CmdIf : IF Expr ':' Cmd 
           | IF Expr ':' Cmd ELSE ':' 
     '''
-    p[0] = ('CmdIf', p[1], p[2], p[4])
+    if len(p) == 5:
+        p[0] = ('CmdIf', p[2], p[4])
+    else:
+        p[0] = ('CmdIf', p[2], p[4], p[7])
     
 def p_CmdWhile(p):
     '''
     CmdWhile : WHILE Expr ':' Cmd 
     '''
-    p[0] = ('CmdWhile', p[1], p[2], p[4])
+    p[0] = ('CmdWhile', p[2], p[4])
 
 def p_CmdFor(p):
     '''
     CmdFor : FOR CmdAtrib TO Expr ':' Cmd 
     '''
-    p[0] = ('CmdFor', p[1], p[2], p[4])
+    p[0] = ('CmdFor', p[2], p[4], p[6])
 
 def p_CmdBreak(p):
     '''
@@ -145,13 +185,13 @@ def p_CmdPrint(p):
     '''
     CmdPrint : PRINT '(' ExprList ')' 
     '''
-    p[0] = ('CmdPrint', p[1], p[3])
+    p[0] = ('CmdPrint', p[3])
     
 def p_CmdReturn(p):
     '''
     CmdReturn : RETURN Expr 
     '''
-    p[0] = ('CmdReturn', p[1], p[2])
+    p[0] = ('CmdReturn', p[2])
 
 def p_CmdSeq(p):
     '''
@@ -194,8 +234,12 @@ def p_Expr(p):
         elif p[2] == '(':
             p[0] = ('Read')
         else:
-            p[0] = ('BinOp', p[1], p[2], p[3])
+            p[0] = ('BinOp', p[2], p[1], p[3])
+            check_expr(p[0],symtab)
+            if p[2] == '/' and p[3] == 0:
+                raise Exception("Semantic error: Division by zero")
     else: 
+        symtab.lookup(p[1])
         p[0] = ('FunctionCall', p[1], p[3])
 
 def p_BinOp(p):
@@ -203,9 +247,10 @@ def p_BinOp(p):
     BinOp : '+' 
           | '-'
           | '*'
-          | DIVIDE
+          | '/'
           | EXP
           | '%'
+          | '='
           | EQUAL
           | NOTEQUAL
           | '<'
@@ -250,11 +295,14 @@ def p_VarDecls(p):
     '''
     if len(p) == 3:
         p[0] = ('VarDecls', p[1], p[2])
+    else:
+        p[0] = ('VarDecls', p[1])
 
 def p_VarDecl(p):
     '''
     VarDecl : VAR ID ':' Type ';' 
     '''
+    symtab.declare(p[2], p[4])  # Register the variable in the symbol table
     p[0] = ('VarDecl', p[2], p[4])
 
 def p_Type(p):
@@ -279,62 +327,27 @@ def p_error(p):
 
 parser = yacc.yacc()
 
-ast = parser.parse('program count; var i: int; { i = 1; while not i: {print(i); i = i + -1}}')
+ast = parser.parse('program fact_rec ;int function fact( x: int ): {var p : int;p = 1 ;while x > 1:{ p = p * x; x = x - 1}; return p} var n : int;{ n = read();print(fact(n))}')
 print(ast)
 
+# ----------------- Valid UPT Code for testing ----------------------------------------------
 
-# --------------------------------------Ignore code below----------------------------------------------------------------
+# program count; var i: int; { i = 1; while i<= 10 : {print(i); i = i + 1}} 
 
-# def p_expr_uminus(p):
-#     'expression : MINUS expression %prec UMINUS'
-#     p[0] = -p[2]
+# program count_for; for i = 1 to 10 : print(i)
 
-# def p_expression_plus(p):
-#     'expression : expression PLUS INT'
-#     p[0] = p[1] + p[3]
+# program square_sum ; var s : int; var n : int; var max : int; { max = read(); n = 1; while n <= max:{s = s + n*n; n = n + 1};print(s)}
 
-# def p_expression_minus(p):
-#     'expression : expression MINUS expression'
-#     p[0] = p[1] - p[3]
+# program fact_iter ; var p : int ; var n : int ; { p = 1;n = read();while (n > 0):{p = p * n; n = n - 1};print(p)}
 
-# def p_expression_times(p):
-#     'expression : expression TIMES expression'
-#     p[0] = p[1] * p[3]
+# program fact_rec ;int function fact( x: int ): {var p : int;p = 1 ;while x > 1:{ p = p * x; x = x - 1}; return p} var n : int;{ n = read();print(fact(n))}
 
-# def p_expression_divide(p):
-#     'expression : expression DIVIDE expression'
-#     if p[3] == 0:
-#         raise ZeroDivisionError("division by zero")
-#     p[0] = p[1] / p[3]
+# ----------------- Invalid UPT Code for testing ----------------------------------------------
 
-# def p_expression_group(p):
-#     'expression : LPAREN expression RPAREN'
-#     p[0] = p[2]
+# program error1 { var x : int; x = 1; print(x)}
 
-# def p_expression_number(p):
-#     'expression : NUMBER'
-#     p[0] = p[1]
+# program error2 ; { var x : int; x = 1; print(x)}
 
-# # Test the parser
-# while True:
-#     try:
-#         s = input('program count; var i: int; { i = 1; while not i: {print(i); i = i + 1}}')
-#     except EOFError:
-#         break
-#     if not s:
-#         continue
-#     result = parser.parse(s)
-#     print(result)
+# program error3; var x : int; void dummy ( ) : { print (1) } { x = 1; print(x) } 
 
-# other way to test the parser
-# parser = yacc.yacc( debug=True)
-# try:
-#     input = open("input3.txt", "r") 
-# except EOFError:
-#     print("End of file Error")
-# result = parser.parse(input.read())
-
-
-
-# if result is not None:
-#         print(result) 
+# program error4 ; int dummy () : { print (1) } var x : int { x = 1; print(x)};

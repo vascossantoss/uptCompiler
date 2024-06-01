@@ -1,0 +1,343 @@
+import ply.yacc as yacc
+
+# Get the token list from the lexer
+from upt_lexer import tokens
+
+# Symbol table instance
+symtab = SymbolTable()
+
+# Grammar rules
+def p_program(p):
+    '''
+    Program : ProgramHeader ProgramBody
+    '''
+    p[0] = ('Program', p[1], p[2])
+
+def p_program_header(p):
+    '''
+    ProgramHeader : PROGRAM IDENTIFIER SEMICOLON
+    '''
+    p[0] = ('ProgramHeader', p[2])
+
+def p_program_body(p):
+    '''
+    ProgramBody : FuncDecls VarDecls Cmd
+    '''
+    p[0] = ('ProgramBody', p[1], p[2], p[3])
+
+def p_func_decls_empty(p):
+    '''
+    FuncDecls : 
+    '''
+    p[0] = []
+
+def p_func_decls(p):
+    '''
+    FuncDecls : Function FuncDecls
+    '''
+    p[0] = [p[1]] + p[2]
+
+def p_function(p):
+    '''
+    Function : FunctionHeader FunctionBody
+    '''
+    p[0] = ('Function', p[1], p[2])
+
+def p_function_header(p):
+    '''
+    FunctionHeader : FunctionType FUNCTION IDENTIFIER LPAREN ParamList RPAREN COLON
+    '''
+    symtab.declare(p[3], p[1])  # Declare function in symbol table
+    p[0] = ('FunctionHeader', p[1], p[3], p[5])
+
+def p_function_type(p):
+    '''
+    FunctionType : INT
+                 | BOOL
+                 | VOID
+    '''
+    p[0] = p[1]
+
+def p_function_body(p):
+    '''
+    FunctionBody : LBRACE VarDecls CmdList RBRACE
+    '''
+    p[0] = ('FunctionBody', p[2], p[3])
+
+def p_param_list_empty(p):
+    '''
+    ParamList : 
+    '''
+    p[0] = []
+
+def p_param_list(p):
+    '''
+    ParamList : ParamList1
+    '''
+    p[0] = p[1]
+
+def p_param_list1_single(p):
+    '''
+    ParamList1 : Param
+    '''
+    symtab.declare(p[1][1], p[1][2])  # Declare parameter in symbol table
+    p[0] = [p[1]]
+
+def p_param_list1_multi(p):
+    '''
+    ParamList1 : Param COMMA ParamList1
+    '''
+    symtab.declare(p[1][1], p[1][2])  # Declare parameter in symbol table
+    p[0] = [p[1]] + p[3]
+
+def p_param(p):
+    '''
+    Param : IDENTIFIER COLON Type
+    '''
+    p[0] = ('Param', p[1], p[3])
+
+def p_var_decls_empty(p):
+    '''
+    VarDecls : 
+    '''
+    p[0] = []
+
+def p_var_decls(p):
+    '''
+    VarDecls : VarDecl VarDecls
+    '''
+    p[0] = [p[1]] + p[2]
+
+def p_var_decl(p):
+    '''
+    VarDecl : VAR IDENTIFIER COLON Type SEMICOLON
+    '''
+    symtab.declare(p[2], p[4])  # Declare variable in symbol table
+    p[0] = ('VarDecl', p[2], p[4])
+
+def p_type(p):
+    '''
+    Type : INT
+         | BOOL
+    '''
+    p[0] = p[1]
+
+def p_cmd_list_single(p):
+    '''
+    CmdList : Cmd
+    '''
+    p[0] = [p[1]]
+
+def p_cmd_list_multi(p):
+    '''
+    CmdList : Cmd SEMICOLON CmdList
+    '''
+    p[0] = [p[1]] + p[3]
+
+def p_cmd(p):
+    '''
+    Cmd : CmdAtrib
+        | CmdIf
+        | CmdWhile
+        | CmdFor
+        | CmdBreak
+        | CmdPrint
+        | CmdReturn
+        | CmdSeq
+    '''
+    p[0] = p[1]
+
+def p_cmd_atrib(p):
+    '''
+    CmdAtrib : IDENTIFIER ASSIGN Expr
+    '''
+    var_type = symtab.lookup(p[1])
+    expr_type = p[3]
+    if var_type != expr_type:
+        raise TypeError(f"Type mismatch: cannot assign {expr_type} to {var_type}")
+    p[0] = ('CmdAtrib', p[1], p[3])
+
+def p_cmd_if(p):
+    '''
+    CmdIf : IF Expr COLON CmdThen
+          | IF Expr COLON CmdThen ELSE COLON Cmd
+    '''
+    if p[2] != 'bool':
+        raise TypeError(f"Type mismatch: condition in if statement must be bool")
+    if len(p) == 5:
+        p[0] = ('CmdIf', p[2], p[4])
+    else:
+        p[0] = ('CmdIfElse', p[2], p[4], p[7])
+
+def p_cmd_then(p):
+    '''
+    CmdThen : Block
+            | CmdIf
+    '''
+    p[0] = p[1]
+
+def p_cmd_while(p):
+    '''
+    CmdWhile : WHILE Expr COLON Cmd
+    '''
+    if p[2] != 'bool':
+        raise TypeError(f"Type mismatch: condition in while statement must be bool")
+    p[0] = ('CmdWhile', p[2], p[4])
+
+def p_cmd_for(p):
+    '''
+    CmdFor : FOR CmdAtrib TO Expr COLON Cmd
+    '''
+    if symtab.lookup(p[2][1]) != 'int' or p[4] != 'int':
+        raise TypeError(f"Type mismatch: for loop bounds must be int")
+    p[0] = ('CmdFor', p[2], p[4], p[6])
+
+def p_cmd_break(p):
+    '''
+    CmdBreak : BREAK
+    '''
+    p[0] = ('CmdBreak',)
+
+def p_cmd_print(p):
+    '''
+    CmdPrint : PRINT LPAREN ExprList RPAREN
+    '''
+    p[0] = ('CmdPrint', p[3])
+
+def p_cmd_return(p):
+    '''
+    CmdReturn : RETURN Expr
+    '''
+    p[0] = ('CmdReturn', p[2])
+
+def p_cmd_seq(p):
+    '''
+    CmdSeq : LBRACE CmdList RBRACE
+    '''
+    p[0] = ('CmdSeq', p[2])
+
+def p_block(p):
+    '''
+    Block : LBRACE CmdList RBRACE
+    '''
+    p[0] = ('Block', p[2])
+
+def p_expr_list_empty(p):
+    '''
+    ExprList : 
+    '''
+    p[0] = []
+
+def p_expr_list(p):
+    '''
+    ExprList : ExprList1
+    '''
+    p[0] = p[1]
+
+def p_expr_list1_single(p):
+    '''
+    ExprList1 : Expr
+    '''
+    p[0] = [p[1]]
+
+def p_expr_list1_multi(p):
+    '''
+    ExprList1 : Expr COMMA ExprList1
+    '''
+    p[0] = [p[1]] + p[3]
+
+def p_expr_number(p):
+    '''
+    Expr : NUMBER
+    '''
+    p[0] = 'int'
+
+def p_expr_true(p):
+    '''
+    Expr : TRUE
+    '''
+    p[0] = 'bool'
+
+def p_expr_false(p):
+    '''
+    Expr : FALSE
+    '''
+    p[0] = 'bool'
+
+def p_expr_identifier(p):
+    '''
+    Expr : IDENTIFIER
+    '''
+    p[0] = symtab.lookup(p[1])
+
+def p_expr_binop(p):
+    '''
+    Expr : Expr PLUS Expr
+         | Expr MINUS Expr
+         | Expr TIMES Expr
+         | Expr DIVIDE Expr
+         | Expr EXP Expr
+         | Expr MOD Expr
+    '''
+    if p[1] != 'int' or p[3] != 'int':
+        raise TypeError(f"Type mismatch: binary operation requires integers")
+    p[0] = 'int'
+
+def p_expr_binop_logic(p):
+    '''
+    Expr : Expr EQ Expr
+         | Expr NEQ Expr
+         | Expr LT Expr
+         | Expr GT Expr
+         | Expr LEQ Expr
+         | Expr GEQ Expr
+    '''
+    if p[1] != p[3]:
+        raise TypeError(f"Type mismatch: cannot compare {p[1]} and {p[3]}")
+    p[0] = 'bool'
+
+def p_expr_binop_bool(p):
+    '''
+    Expr : Expr AND Expr
+         | Expr OR Expr
+    '''
+    if p[1] != 'bool' or p[3] != 'bool':
+        raise TypeError(f"Type mismatch: logical operation requires booleans")
+    p[0] = 'bool'
+
+def p_expr_unop(p):
+    '''
+    Expr : MINUS Expr %prec UMINUS
+         | NOT Expr
+    '''
+    if p[1] == '-' and p[2] != 'int':
+        raise TypeError(f"Type mismatch: unary minus requires integer")
+    if p[1] == 'not' and p[2] != 'bool':
+        raise TypeError(f"Type mismatch: not requires boolean")
+    p[0] = p[2]
+
+def p_expr_paren(p):
+    '''
+    Expr : LPAREN Expr RPAREN
+    '''
+    p[0] = p[2]
+
+def p_expr_func_call(p):
+    '''
+    Expr : IDENTIFIER LPAREN ExprList RPAREN
+    '''
+    func_type = symtab.lookup(p[1])
+    p[0] = func_type
+
+def p_expr_read(p):
+    '''
+    Expr : READ LPAREN RPAREN
+    '''
+    p[0] = 'int'
+
+# Error rule for syntax errors
+def p_error(p):
+    print(f"Syntax error at '{p.value}'")
+
+# Build the parser
+parser = yacc.yacc()
